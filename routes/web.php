@@ -4,6 +4,7 @@ use App\Models\Inventory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
@@ -28,22 +29,14 @@ use App\Http\Controllers\NotesController;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/calender', function () {
-    return view('Backend.Calender.network');
-});
+Route::get('/calender', function () {return view('Backend.Calender.network');});
 
-// Route::get('/cal', function () {
-//     return view('Backend.Calender.net');
-// });
-
-Route::get('/users', function () {
-    return view('Frontend.index');
-})->name('users');
+Route::get('/users', function () { return view('Frontend.index');})->name('users');
 
 Route::controller(monitoringController::class)->group(function () {
-    Route::get('/cal', 'index')->name('index')->middleware('role:admin');
-    Route::post('/monitoring-store', 'store')->name('M-store')->middleware('role:admin');
-    // Route::post('/request', 'RequestStore')->name('request');
+    Route::get('/getEvent', 'getevent')->name('getevent')->middleware('role:admin');
+    Route::post('/createevent', 'createEvent')->name('createevent')->middleware('role:admin');
+    Route::post('/deleteevent', 'deleteevent')->name('deleteevent')->middleware('role:admin');
 });
 
 Route::controller(FrontendController::class)->group(function () {
@@ -70,7 +63,7 @@ Route::controller(InventoryController::class)->group(function () {
 });
 
 
-    Route::controller(MasterController::class)->group(function () {
+Route::controller(MasterController::class)->group(function () {
     Route::get('/jenis-all', 'jenisAll')->name('jenis.all')->middleware('role:admin');
     Route::get('/jenis-add', 'jenisAdd')->name('jenis.add')->middleware('role:admin');
     Route::post('/jenis-store', 'jenisStore')->name('jenis.store')->middleware('role:admin');
@@ -126,9 +119,13 @@ Route::controller(NotesController::class)->group(function () {
     Route::get('/finish-{id}', 'finish')->name('finish.approve')->middleware('role:admin');
 });
 
-
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard')->middleware('role:admin');
+});
+
+Route::controller(CalendarController::class)->group(function () {
+    Route::get('/calendar', 'index')->name('calendar')->middleware('role:admin');
+    Route::POST('/calendar-store', 'store')->name('cal.store')->middleware('role:admin');
 });
 
 // Route::middleware(['auth', 'user-access:user'])->group(function () {

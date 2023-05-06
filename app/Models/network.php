@@ -9,5 +9,6 @@ class network extends Model
 {
     use HasFactory;
     protected $table = 'network';
-    protected $guarded = [];
+    // protected $guarded = [];
+    protected $fillable = ['title','start_date','end_date'];
 }

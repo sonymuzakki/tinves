@@ -110,7 +110,7 @@ class InventoryController extends Controller
 
         public function InventarisUpdate(Request $request,$id){
 
-            //validasi inputan dari form
+                //validasi inputan dari form
                 $this->validate($request, [
                     'user_id' => 'required',
                     'jenis_id' => 'required',
@@ -129,7 +129,7 @@ class InventoryController extends Controller
                     'amp' => 'required',
                     'umbrella' => 'required',
                     'ipaddress' => 'required',
-                    'anydeskid' => 'required'
+                    'anydeskid' => 'required',
                 ]);
 
                 //mengambil data inventaris dari database
@@ -170,7 +170,7 @@ class InventoryController extends Controller
                 );
 
                 //kembalikan user ke halaman inventaris dengan notifikasi
-                return redirect()->route('invetaris.all');
+                return redirect()->route('index_json');
             }
 
 

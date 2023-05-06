@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h3 class="mb-sm-2">Inventory-Json</h3><br></br><hr>
+            <h3 class="mb-sm-2">List Inventory</h3><br></br><hr>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -24,10 +24,9 @@
         <div class="card">
             <div class="card-body">
 
-                <a href="{{ route('invetaris.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light"
-                    style="float:right">Add Inventory</a> <br></br>
+                <a href="{{ route('invetaris.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right">Add Inventory</a>
 
-                <h4>Notes All Data</h4>
+                <h4>Inventory All Data</h4>
                 <table id="inventory-table" class="table table-bordered dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
                     <thead>
                         <tr>

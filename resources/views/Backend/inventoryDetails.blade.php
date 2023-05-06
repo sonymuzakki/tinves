@@ -307,6 +307,8 @@
                   <tr>
                     <th width="5%">No</th>
                     <th width="20px">Laporan</th>
+                    <th width="20px">Kendala</th>
+                    <th width="20px">Pengerjaan</th>
                     <th width="20px">Tanggal</th>
                     <th width="10px">Status</th>
                   </tr>
@@ -316,6 +318,8 @@
                     <tr>
                         <td>{{ $key+1}}</td>
                         <td>{{ $item->laporan }}</td>
+                        <td>{{ $item->kendala }}</td>
+                        <td>{{ $item->pengerjaan }}</td>
                         <td>{{ $item->created_at->format('d-M-Y h:i A')}}</td>
                         <td>
                             @if ($item->status == "0")
