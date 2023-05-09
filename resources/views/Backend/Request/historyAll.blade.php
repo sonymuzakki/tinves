@@ -23,10 +23,10 @@
         <div class="card">
             <div class="card-body">
 
-                <a href="{{ route('request.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right">Add Request</a><br></br>
+                <a href="{{ route('request.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right">Add Request</a><br>
 
                 <h4>Request All Data</h4>
-                <table id="datatable" class="table table-responsive dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
+                <table id="" class="table table-responsive dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
                     <thead>
                         <tr>
                             <th>No</th>

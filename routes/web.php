@@ -29,7 +29,8 @@ use App\Http\Controllers\NotesController;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/calender', function () {return view('Backend.Calender.network');});
+
+// Route::get('/calender', function () {return view('Backend.Calender.network');});
 
 Route::get('/users', function () { return view('Frontend.index');})->name('users');
 
@@ -83,7 +84,7 @@ Route::controller(MasterController::class)->group(function () {
     Route::post('/lokasi-store', 'lokasiStore')->name('lokasi.store')->middleware('role:admin');
     Route::get('/lokasi-delete{id}', 'lokasiDelete')->name('lokasi.delete')->middleware('role:admin');
     Route::post('/lokasiUpdate','lokasiUpdate')->name('lokasi.update')->middleware('role:admin');
-    Route::post('/lokasi-edit-{id}','lokasiEdit')->name('lokasi.edit')->middleware('role:admin');
+    Route::get('/lokasi-edit-{id}','lokasiEdit')->name('lokasi.edit')->middleware('role:admin');
 
     Route::get('/user-All', 'userAll')->name('user.all')->middleware('role:admin');
     Route::get('/user-Add', 'userAdd')->name('user.add')->middleware('role:admin');
@@ -124,10 +125,9 @@ Route::controller(DashboardController::class)->group(function () {
 });
 
 Route::controller(CalendarController::class)->group(function () {
-    Route::get('/calendar', 'index')->name('calendar')->middleware('role:admin');
-    Route::POST('/calendar-store', 'store')->name('cal.store')->middleware('role:admin');
+    Route::get('/fullcalender', 'index')->name('calendar')->middleware('role:admin');
+    Route::POST('/fullcalenderAjax', 'ajax')->name('cal.store')->middleware('role:admin');
 });
-
 // Route::middleware(['auth', 'user-access:user'])->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'profile'])->name('admin.profile');
 //     Route::get('/editProfile', [ProfileController::class, 'editProfile'])->name('edit.profile');

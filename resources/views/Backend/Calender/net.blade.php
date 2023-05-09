@@ -1,431 +1,607 @@
-{{--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield  ('title')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="SD INTERCOM" name="sony" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <link rel="shortcut icon" href="logo/favicon.png">
 
-@extends('admin.admin_master')
+    <!-- jquery.vectormap css -->
+    <link href="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive Table css -->
+    <link href="assets/libs/admin-resources/rwd-table/rwd-table.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body data-topbar="dark">
+    <div id="layout-wrapper">
+        <!-- Header -->
+            @include('admin.body.header')
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+            <div data-simplebar class="h-100">
+
+                <!-- User details -->
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
 
 
-@section('admin')
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title">Menu</li>
 
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h2 class="mb-sm-0">Monitoring Peripheral</h2><br></br><hr>
+                        <li>
+                            <a href="/dashboard" class="waves-effect">
+                                <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end"></span>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="">Form</a></li>
-                    <li class="breadcrumb-item active">Data Inventaris
-                    </li>
-                </ol>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="ri-layout-3-line"></i>
+                                <span>Manage Inventory</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{ route('index_json') }}">List Inventory</a></li>
+                                <li><a href="{{ route('invetaris.add') }}">Form Inventory</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="ri-layout-3-line"></i>
+                                <span>Manage Master</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{ route('user.all') }}">Users</a></li>
+                                <li><a href="{{ route('divisi.all') }}">Divisi</a></li>
+                                <li><a href="{{ route('jenis.all') }}">Jenis</a></li>
+                                <li><a href="{{ route('lokasi.all') }}">Lokasi</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="ri-layout-3-line"></i>
+                                <span>Manage Request</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{ route('request.all') }}">List Request Support</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-title">Pages</li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="ri-account-circle-line"></i>
+                                <span>Profile</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{ route('admin.profile') }}">Profile</a></li>
+                                <li><a href="{{ route('edit.profile') }}">Edit Profile</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#" class="waves-effect">
+                                <i class="ri-account-circle-line"></i><span class="badge rounded-pill bg-success float-end"></span>
+                                <span>Monitoring</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('notes-json') }}" class="waves-effect">
+                                <i class="ri-sticky-note-line"></i><span class="badge rounded-pill bg-success float-end"></span>
+                                <span>Notes</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="ri-profile-line"></i>
+                                <span>Support</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{ route('request.add') }}">Form Request Support</a></li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- Sidebar -->
             </div>
         </div>
-    </div>
-</div>
+        <!-- Left Sidebar End -->
 
-<!-- Modal -->
-<div class="modal fade" id="network" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Events</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" id="title">
-        <span id="titleError" class="text-danger"></span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" id="saveBtn" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+        <<!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
 
-<div class="row">
-    <div class="col-xl-12">
-        <div class="card mb-0">
-            <div class="card-body">
-                <div id="calendar">
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0">Networking Monitoring</h4>
+
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Monitoring</a></li>
+                                    <li class="breadcrumb-item active">Periperal</li>
+                                </ol>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id=calendar>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
+<!-- Footer -->
+    @include('admin.body.footer')
+<!-- End Footer -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
+<script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+<script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
+
+{{--  <script type="text/javascript">
+    $(document).ready(function () {
+
+        /*------------------------------------------
+        --------------------------------------------
+        Get Site URL
+        --------------------------------------------
+        --------------------------------------------*/
+        var SITEURL = "{{ url('/') }}";
+
+        /*------------------------------------------
+        --------------------------------------------
+        CSRF Token Setup
+        --------------------------------------------
+        --------------------------------------------*/
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        /*------------------------------------------
+        --------------------------------------------
+        FullCalender JS Code
+        --------------------------------------------
+        --------------------------------------------*/
+        var calendar = $('#calendar').fullCalendar({
+                        editable: true,
+                        events: SITEURL + "/fullcalender",
+                        displayEventTime: false,
+                        editable: true,
+                        eventRender: function (event, element, view) {
+                            if (event.allDay === 'true') {
+                                    event.allDay = true;
+                            } else {
+                                    event.allDay = false;
+                            }
+                        },
+                        selectable: true,
+                        selectHelper: true,
+                        select: function (start, end, allDay) {
+                            var title = prompt('Event Title:');
+                            if (title) {
+                                var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
+                                var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
+                                $.ajax({
+                                    url: SITEURL + "/fullcalenderAjax",
+                                    data: {
+                                        title: title,
+                                        start: start,
+                                        end: end,
+                                        type: 'add'
+                                    },
+                                    type: "POST",
+                                    success: function (data) {
+                                        displayMessage("Event Created Successfully");
+
+                                        calendar.fullCalendar('renderEvent',
+                                            {
+                                                id: data.id,
+                                                title: title,
+                                                start: start,
+                                                end: end,
+                                                allDay: allDay
+                                            },true);
+
+                                        calendar.fullCalendar('unselect');
+                                    }
+                                });
+                            }
+                        },
+                        eventDrop: function (event, delta) {
+                            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
+                            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
+
+                            $.ajax({
+                                url: SITEURL + '/fullcalenderAjax',
+                                data: {
+                                    title: event.title,
+                                    start: start,
+                                    end: end,
+                                    id: event.id,
+                                    type: 'update'
+                                },
+                                type: "POST",
+                                success: function (response) {
+                                    displayMessage("Event Updated Successfully");
+                                }
+                            });
+                        },
+                        eventClick: function (event) {
+                            var deleteMsg = confirm("Do you really want to delete?");
+                            if (deleteMsg) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: SITEURL + '/fullcalenderAjax',
+                                    data: {
+                                            id: event.id,
+                                            type: 'delete'
+                                    },
+                                    success: function (response) {
+                                        calendar.fullCalendar('removeEvents', event.id);
+                                        displayMessage("Event Deleted Successfully");
+                                    }
+                                });
+                            }
+                        }
+
+                    });
+
+        });
+
+        /*------------------------------------------
+        --------------------------------------------
+        Toastr Success Code
+        --------------------------------------------
+        --------------------------------------------*/
+        function displayMessage(message) {
+            toastr.success(message, 'Event');
+        }
+
+</script>  --}}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        /*------------------------------------------
+        --------------------------------------------
+        Get Site URL
+        --------------------------------------------
+        --------------------------------------------*/
+        var SITEURL = "{{ url('/') }}";
+
+        /*------------------------------------------
+        --------------------------------------------
+        CSRF Token Setup
+        --------------------------------------------
+        --------------------------------------------*/
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        /*------------------------------------------
+        --------------------------------------------
+        FullCalender JS Code
+        --------------------------------------------
+        --------------------------------------------*/
+        var calendar = $('#calendar').fullCalendar({
+                        editable: true,
+                        events: SITEURL + "/fullcalender",
+                        displayEventTime: false,
+                        editable: true,
+                        eventRender: function (event, element, view) {
+                            if (event.allDay === 'true') {
+                                    event.allDay = true;
+                            } else {
+                                    event.allDay = false;
+                            }
+                        },
+                        selectable: true,
+                        selectHelper: true,
+                        select: function (start, end, allDay) {
+                            var title = prompt('Event Title:');
+                            if (title) {
+                                var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
+                                var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
+                                $.ajax({
+                                    url: SITEURL + "/fullcalenderAjax",
+                                    data: {
+                                        title: title,
+                                        start: start,
+                                        end: end,
+                                        type: 'add'
+                                    },
+                                    type: "POST",
+                                    success: function (data) {
+                                        displayMessage("Event Created Successfully");
+
+                                        calendar.fullCalendar('renderEvent',
+                                            {
+                                                id: data.id,
+                                                title: title,
+                                                start: start,
+                                                end: end,
+                                                allDay: allDay
+                                            },true);
+
+                                        calendar.fullCalendar('unselect');
+                                    }
+                                });
+                            }
+                        },
+                        eventDrop: function (event, delta) {
+                            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
+                            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
+
+                            $.ajax({
+                                url: SITEURL + '/fullcalenderAjax',
+                                data: {
+                                    title: event.title,
+                                    start: start,
+                                    end: end,
+                                    id: event.id,
+                                    type: 'update'
+                                },
+                                type: "POST",
+                                success: function (response) {
+                                    displayMessage("Event Updated Successfully");
+                                }
+                            });
+                        },
+                        eventClick: function (event) {
+                            var deleteMsg = confirm("Do you really want to delete?");
+                            if (deleteMsg) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: SITEURL + '/fullcalenderAjax',
+                                    data: {
+                                            id: event.id,
+                                            type: 'delete'
+                                    },
+                                    success: function (response) {
+                                        calendar.fullCalendar('removeEvents', event.id);
+                                        displayMessage("Event Deleted Successfully");
+                                    }
+                                });
+                            }
+                        }
+
+                    });
+
+        });
+
+        /*------------------------------------------
+        --------------------------------------------
+        Toastr Success Code
+        --------------------------------------------
+        --------------------------------------------*/
+        function displayMessage(message) {
+            toastr.success(message, 'Event');
+        }
+
+</script>
+
+
+
+
+</body>
+</html>
+
+{{--  @extends('admin.admin_master')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+@section('title')
+@endsection
+@section('admin')
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0">Networking Monitoring</h4>
+
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Monitoring</a></li>
+                                    <li class="breadcrumb-item active">Periperal</li>
+                                </ol>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="calendar">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+@endsection
 @section('js')
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
 
+            /*------------------------------------------
+            --------------------------------------------
+            Get Site URL
+            --------------------------------------------
+            --------------------------------------------*/
+            var SITEURL = "{{ url('/') }}";
 
-<script>
-    $('document').ready(function(){
-        $.ajaxSetup({
-            headers:{
-                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+            /*------------------------------------------
+            --------------------------------------------
+            CSRF Token Setup
+            --------------------------------------------
+            --------------------------------------------*/
+            $.ajaxSetup({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            /*------------------------------------------
+            --------------------------------------------
+            FullCalender JS Code
+            --------------------------------------------
+            --------------------------------------------*/
+            var calendar = $('#calendar').fullCalendar({
+                            editable: true,
+                            events: SITEURL + "/fullcalender",
+                            displayEventTime: false,
+                            editable: true,
+                            eventRender: function (event, element, view) {
+                                if (event.allDay === 'true') {
+                                        event.allDay = true;
+                                } else {
+                                        event.allDay = false;
+                                }
+                            },
+                            selectable: true,
+                            selectHelper: true,
+                            select: function (start, end, allDay) {
+                                var title = prompt('Event Title:');
+                                if (title) {
+                                    var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
+                                    var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
+                                    $.ajax({
+                                        url: SITEURL + "/fullcalenderAjax",
+                                        data: {
+                                            title: title,
+                                            start: start,
+                                            end: end,
+                                            type: 'add'
+                                        },
+                                        type: "POST",
+                                        success: function (data) {
+                                            displayMessage("Event Created Successfully");
+
+                                            calendar.fullCalendar('renderEvent',
+                                                {
+                                                    id: data.id,
+                                                    title: title,
+                                                    start: start,
+                                                    end: end,
+                                                    allDay: allDay
+                                                },true);
+
+                                            calendar.fullCalendar('unselect');
+                                        }
+                                    });
+                                }
+                            },
+                            eventDrop: function (event, delta) {
+                                var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
+                                var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
+
+                                $.ajax({
+                                    url: SITEURL + '/fullcalenderAjax',
+                                    data: {
+                                        title: event.title,
+                                        start: start,
+                                        end: end,
+                                        id: event.id,
+                                        type: 'update'
+                                    },
+                                    type: "POST",
+                                    success: function (response) {
+                                        displayMessage("Event Updated Successfully");
+                                    }
+                                });
+                            },
+                            eventClick: function (event) {
+                                var deleteMsg = confirm("Do you really want to delete?");
+                                if (deleteMsg) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: SITEURL + '/fullcalenderAjax',
+                                        data: {
+                                                id: event.id,
+                                                type: 'delete'
+                                        },
+                                        success: function (response) {
+                                            calendar.fullCalendar('removeEvents', event.id);
+                                            displayMessage("Event Deleted Successfully");
+                                        }
+                                    });
+                                }
+                            }
+
+                        });
+
+            });
+
+            /*------------------------------------------
+            --------------------------------------------
+            Toastr Success Code
+            --------------------------------------------
+            --------------------------------------------*/
+            function displayMessage(message) {
+                toastr.success(message, 'Event');
             }
-        });
-        var network = @json($events);
-        var calendar = $('#calendar').fullCalendar({
-            header:{
-                left:'prev,next today',
-                center:'title',
-                right:'month,agendaWeek,agendaDay'
-            },
-            events: network,
-            selectable:true,
-            selecthelper:true,
-            select: function (start,end,AllDays){
-                $('#network').modal('toggle');
 
-                $('#saveBtn').click(function(){
-                    var title = $('#title').val();
-                    var start_date = moment(start).format('YYYY-MM-DD');
-                    var end_date = moment(end).format('YYYY-MM-DD');
-
-                    $.ajax({
-                        url:"{{ route('cal.store') }}",
-                        type:"POST",
-                        dataType:'json',
-                        data:{ title, start_date, end_date},
-                        success:function(response)
-                        {
-                            console.log(response)
-                        },
-                        error:function(error)
-                        {
-
-                        }
-                    })
-
-                })
-
-            }
-        });
-    });
-</script>
-@endsection
+    </script>
 
 @endsection  --}}
 
 
-<!doctype html>
-<html lang="en">
 
-    <head>
-
-        <meta charset="utf-8" />
-        <title>@yield  ('title')</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="SD INTERCOM" name="sony" />
-        <meta name="csrf-token" content="{{ csrf_token() }}" />
-
-        <!-- App favicon -->
-        {{--  <link rel="shortcut icon" href="assets/images/favicon.ico">  --}}
-        <link rel="shortcut icon" href="logo/favicon.png">
-
-        <!-- FullCalendar -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
-
-
-        <!-- jquery.vectormap css -->
-        <link href="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset ('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet" type="text/css" />
-
-        <!-- DataTables -->
-        {{--  <link href="{{ asset ('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />  --}}
-        <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
-        <!-- Responsive datatable examples -->
-        <link href="{{ asset ('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-
-        <!-- Responsive Table css -->
-        <link href="{{ asset ('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-
-        <!-- Bootstrap Css -->
-        <link href="{{ asset ('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <!-- Icons Css -->
-        <link href="{{ asset ('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
-        <link href="{{ asset ('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-
-        <!-- Toast -->
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
-
-        <link href="{{ asset ('assets/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset ('assets/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css">
-
-    </head>
-
-    <body data-topbar="dark">
-
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
-
-        <!-- Begin page -->
-        <div id="layout-wrapper">
-
-            <!-- Header -->
-            @include('admin.body.header')
-
-            <!-- ========== Left Sidebar Start ========== -->
-            @include('admin.body.sidebar')
-            <!-- Left Sidebar End -->
-
-
-            <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            <!-- ============================================================== -->
-            <div class="main-content">
-                <!-- Title -->
-                <div class="page-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h2 class="mb-sm-0">Monitoring Peripheral</h2><br></br><hr>
-
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="">Form</a></li>
-                                        <li class="breadcrumb-item active">Data Inventaris
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content -->
-
-                    <!-- Modal -->
-                        <div class="modal fade" id="network" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Events</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <input type="text" class="form-control" id="title">
-                                        <span id="titleError" class="text-danger"></span>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" id="saveBtn" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="card mb-0">
-                                <div class="card-body">
-                                    <div id="calendar">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- End Page-content -->
-
-        <!-- Footer -->
-            @include('admin.body.footer')
-        <!-- End Footer -->
-
-            </div>
-        <!-- end main content-->
-
-        </div>
-        <!-- END layout-wrapper -->
-
-        <!-- Right Sidebar -->
-        <div class="right-bar">
-            <div data-simplebar class="h-100">
-                <div class="rightbar-title d-flex align-items-center px-3 py-4">
-
-                    <h5 class="m-0 me-2">Settings</h5>
-
-                    <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
-                        <i class="mdi mdi-close noti-icon"></i>
-                    </a>
-                </div>
-
-            </div> <!-- end slimscroll-menu-->
-        </div>
-        <!-- /Right-bar -->
-
-        <!-- Right bar overlay-->
-        <div class="rightbar-overlay"></div>
-
-        <!-- JAVASCRIPT -->
-            <script src="{{ asset('assets/libs/jquery/jquery.min.js')  }}"></script>
-            <script src="{{  asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }} "></script>
-            <script src="{{  asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/node-waves/waves.min.js') }}"></script>
-
-            <script src="{{  asset('assets/libs/select2/js/select2.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
-            <script src="{{  asset('assets/js/pages/form-advanced.init.js') }}"></script>
-
-        <!-- FullCalendar -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
-
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-            <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.6/index.global.min.js'></script>
-
-
-        <!-- jquery.vectormap map -->
-            <script src="{{  asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
-
-        <!-- Required datatable js -->
-            <script src="{{  asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-
-        <!-- Responsive examples -->
-            <script src="{{  asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-
-            {{--  <script src="{{  asset('assets/js/pages/dashboard.init.js') }}"></script>  --}}
-
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
-            <script src="{{  asset('assets/js/code.js') }}"></script>
-
-        <!-- App js -->
-            <script src="{{  asset('assets/js/app.js') }}"></script>
-        <!-- Toast-->
-            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-
-
-        <!-- Required Datatable -->
-            <script>
-                @if(Session::has('message'))
-                var type = "{{ Session::get('alert-type','info') }}"
-                switch(type){
-                case 'info':
-                toastr.info(" {{ Session::get('message') }} ");
-                break;
-
-                case 'success':
-                toastr.success(" {{ Session::get('message') }} ");
-                break;
-
-                case 'warning':
-                toastr.warning(" {{ Session::get('message') }} ");
-                break;
-
-                case 'error':
-                toastr.error(" {{ Session::get('message') }} ");
-                break;
-                }
-                @endif
-            </script>
-
-        <!-- App js -->
-            <script src="{{  asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-            <script src="{{  asset('assets/libs/datatables.net-bs4/js/datatables.bootstrap.min.js') }} "></script>
-
-
-        {{-- Dattable init js   --}}
-        <script src="{{  asset('assets/js/pages/datatables.init.js') }}"></script>
-
-        {{-- Validate js   --}}
-        <script src="{{  asset('assets/js/validate.min.js') }}"></script>
-
-        @yield('js')
-
-        {{--  Required datatable js  --}}
-        <script src="assets/libs/dattables.net/js/jquery.dataTables.min.js"></script>
-        <script src="assets/libs/dattables.net-bs4/js/datatables.bootstrap.min.js"></script>
-
-        {{-- Dattable init js   --}}
-        <script src="assets/js/pages/datatables.init.js"></script>
-
-        {{-- Validate js   --}}
-        <script src="assets/js/validate.min.js"></script>
-
-           {{--  <!-- Data Table-->
-            $(document).ready(function () {
-                $('#dttables').DataTable();
-            });  --}}
-
-            <script>
-                $('document').ready(function(){
-                    $.ajaxSetup({
-                        headers:{
-                            'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    var network = @json($events);
-                    var calendar = $('#calendar').fullCalendar({
-                        header:{
-                            left:'prev,next today',
-                            center:'title',
-                            right:'month,agendaWeek,agendaDay'
-                        },
-                        events: network,
-                        selectable:true,
-                        selecthelper:true,
-                        select: function (start,end,AllDays){
-                            $('#network').modal('toggle');
-
-                            $('#saveBtn').click(function(){
-                                var title = $('#title').val();
-                                var start_date = moment(start).format('YYYY-MM-DD');
-                                var end_date = moment(end).format('YYYY-MM-DD');
-
-                                $.ajax({
-                                    url:"{{ route('cal.store') }}",
-                                    type:"POST",
-                                    dataType:'json',
-                                    data:{ title, start_date, end_date},
-                                    success:function(response)
-                                    {
-                                        $('#network').modal('hide')
-                                        $('#calendar').fullCalendar('renderEvent', {
-                                            'title': response.title,
-                                            'start_date': response.start_date,
-                                            'end_date': response.end_date,
-                                        });
-                                        calendar.refetchEvents();
-                                        {{--  $('#calendar').fullCalendar('refetchEvents');  --}}
-                                    },
-                                    error:function(errors)
-                                    {
-                                        if(error.responseJSON.errors){
-                                            $('#titleError').html(error.responseJSON.errors.title);
-                                        }
-                                    }
-                                })
-
-                            })
-
-                        }
-                    });
-                });
-            </script>
-
-    </body>
-
-</html>

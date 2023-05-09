@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('network', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->date('start');
+            $table->date('end');
             $table->timestamps();
         });
     }

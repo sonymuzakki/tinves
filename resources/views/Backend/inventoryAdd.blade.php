@@ -114,8 +114,8 @@
 
                                         <option value="OHS 2021">OHS 2021 </option>
                                         <option value="OHS 2019">OHS 2019 </option>
-                                        <option value="WPS">WPS </option>
-                                        {{--  <option value=""> </option>  --}}
+                                            <option value="WPS">WPS </option>
+                                            {{--  <option value=""> </option>  --}}
                                         </select>
                                 </div>
                         </div>
@@ -414,18 +414,6 @@
 
 </script>
 
-<script>
-    function jenisChanged() {
-        var jenis = document.getElementsByName("jenis")[0].value;
-        if (jenis === "printer") {
-            document.getElementById("merkInput").style.display = "block";
-            document.getElementsByName("os")[0].style.display = "none";
-        } else {
-            document.getElementById("merkInput").style.display = "block";
-            document.getElementsByName("os")[0].style.display = "block";
-        }
-    }
-</script>
 
 @endsection
 

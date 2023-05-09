@@ -24,7 +24,7 @@
         <div class="card">
             <div class="card-body">
 
-                <a href="{{ route('invetaris.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right">Add Inventory</a>
+                <a href="{{ route('invetaris.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right">Add Inventory</a><br>
 
                 <h4>Inventory All Data</h4>
                 <table id="inventory-table" class="table table-bordered dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">

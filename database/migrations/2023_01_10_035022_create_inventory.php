@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('inventory', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            // $table->string('jenis');
             $table->integer('jenis_id');
             $table->string('hostname')->default('-')->nullable();
             $table->string('merk')->default('-')->nullable();

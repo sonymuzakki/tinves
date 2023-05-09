@@ -1,3 +1,9 @@
+<!-- FullCalendar -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
 @extends('admin.admin_master')
 
 @section('admin')
@@ -12,7 +18,7 @@
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Upcube</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tinves</a></li>
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div>
@@ -96,7 +102,7 @@
 
     <!-- Datatable Support-->
     <div class="row">
-        <div class="col-12">
+        <div class="col-9">
             <div class="card">
                 <div class="card-body">
 
@@ -106,13 +112,13 @@
                     <table id="" class="table table-bordered dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
                         <thead>
                             <tr>
-                                <th width="5%">No</th>
+                                <th width="2%">No</th>
                                 <th>User</th>
                                 <th>Jenis</th>
                                 <th>Laporan</th>
                                 <th>Tanggal</th>
                                 <th>Proses</th>
-                                <th width="20%">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -152,56 +158,25 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    {{--  <!-- Datatable Notes -->
-    <div class="row">
-        <div class="col-12">
+        <div class="col-3">
             <div class="card">
                 <div class="card-body">
-
-                    <a href="{{ route('request.all') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right">View More</a> <br></br>
-
-                    <h4>Request Proses Data</h4>
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
+                    <h4>Notes</h4>
+                    <table id="" class="table table-bordered dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
                         <thead>
                             <tr>
-                                <th width="5%">No</th>
-                                <th>User</th>
-                                <th>Jenis</th>
-                                <th>Laporan</th>
+                                <th>No</th>
+                                <th>Deskripsi</th>
                                 <th>Tanggal</th>
-                                <th>Proses</th>
-                                <th width="20%">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                                @foreach ($allData as $key => $item)
+                                @foreach ($notes as $key => $item)
                                 <tr>
                                     <td>{{ $key+1}}</td>
-                                    <td>{{ $item['inventory']['user']['name'] }}</td>
-                                    <td>{{ $item['inventory']['jenis']['nama'] }}</td>
-                                    <td>{{ $item->laporan}}</td>
+                                    <td>{{ $item->deskripsi }}</td>
                                     <td>{{ $item->created_at->format('d-M-Y h:i')}}</td>
-                                    <td>
-                                        @if ($item->status == "0")
-                                            <button type="button" class="btn btn-warning waves-effect waves-light">
-                                                <i class="ri-error-warning-line align-middle me-2"></i> Pending
-                                            </button>
-                                        @elseif ($item->status == "1")
-                                            <button type="button" class="btn btn-success waves-effect waves-light">
-                                                <i class="ri-check-line align-middle me-2"></i> Success
-                                            </button>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($item->status == '0')
-                                        <a href="{{ route('history.proses', $item->id) }}" class="btn btn-danger sm" title="Proses"> <i class="ri-donut-chart-fill"></i></a>
-                                        <a href="{{ route('history.approvedsh' , $item->id )}}" class="btn btn-info sm" title="Approved" id="ApprovedBtn"> <i class="fas fa-check-circle"></i></a>
-                                        @elseif ($item->status == '1')
-                                            <h5 class="container"> - </h5>
-                                        @endif
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -210,7 +185,148 @@
             </div>
         </div>
     </div>
-    <!-- end row -->  --}}
+
+    <!-- FullCalendar-->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 style="border-bottom: 1px solid #000 padding-bottom:5px margin-bottom:10px">Monitoring Peripheral</h4><br>
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
+@section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        /*------------------------------------------
+        --------------------------------------------
+        Get Site URL
+        --------------------------------------------
+        --------------------------------------------*/
+        var SITEURL = "{{ url('/') }}";
+
+        /*------------------------------------------
+        --------------------------------------------
+        CSRF Token Setup
+        --------------------------------------------
+        --------------------------------------------*/
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        /*------------------------------------------
+        --------------------------------------------
+        FullCalender JS Code
+        --------------------------------------------
+        --------------------------------------------*/
+        var calendar = $('#calendar').fullCalendar({
+                        editable: true,
+                        events: SITEURL + "/fullcalender",
+                        displayEventTime: false,
+                        editable: true,
+                        eventRender: function (event, element, view) {
+                            if (event.allDay === 'true') {
+                                    event.allDay = true;
+                            } else {
+                                    event.allDay = false;
+                            }
+                        },
+                        selectable: true,
+                        selectHelper: true,
+                        select: function (start, end, allDay) {
+                            var title = prompt('Event Title:');
+                            if (title) {
+                                var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
+                                var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
+                                $.ajax({
+                                    url: SITEURL + "/fullcalenderAjax",
+                                    data: {
+                                        title: title,
+                                        start: start,
+                                        end: end,
+                                        type: 'add'
+                                    },
+                                    type: "POST",
+                                    success: function (data) {
+                                        displayMessage("Event Created Successfully");
+
+                                        calendar.fullCalendar('renderEvent',
+                                            {
+                                                id: data.id,
+                                                title: title,
+                                                start: start,
+                                                end: end,
+                                                allDay: allDay
+                                            },true);
+
+                                        calendar.fullCalendar('unselect');
+                                    }
+                                });
+                            }
+                        },
+                        eventDrop: function (event, delta) {
+                            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
+                            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
+
+                            $.ajax({
+                                url: SITEURL + '/fullcalenderAjax',
+                                data: {
+                                    title: event.title,
+                                    start: start,
+                                    end: end,
+                                    id: event.id,
+                                    type: 'update'
+                                },
+                                type: "POST",
+                                success: function (response) {
+                                    displayMessage("Event Updated Successfully");
+                                }
+                            });
+                        },
+                        eventClick: function (event) {
+                            var deleteMsg = confirm("Do you really want to delete?");
+                            if (deleteMsg) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: SITEURL + '/fullcalenderAjax',
+                                    data: {
+                                            id: event.id,
+                                            type: 'delete'
+                                    },
+                                    success: function (response) {
+                                        calendar.fullCalendar('removeEvents', event.id);
+                                        displayMessage("Event Deleted Successfully");
+                                    }
+                                });
+                            }
+                        }
+
+                    });
+
+        });
+
+        /*------------------------------------------
+        --------------------------------------------
+        Toastr Success Code
+        --------------------------------------------
+        --------------------------------------------*/
+        function displayMessage(message) {
+            toastr.success(message, 'Event');
+        }
+
+</script>
+
+@endsection
 @endsection

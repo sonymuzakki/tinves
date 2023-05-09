@@ -22,27 +22,14 @@
     <div class="col-4   ">
         <div class="card">
             <div class="card-body">
-                <form method="post" action="{{ route('invetaris.store') }}" enctype="multipart/from-data" id="myForm">
+                <form method="post" action="" enctype="multipart/from-data" id="myForm">
                     @csrf
 
                     <div class="row">
                         <h5>User   : {{ $inventaris->user->name }}</h5><br></br>
                         <h6>Divisi : {{ $inventaris->user->Divisi->nama }}</h6><br></br>
                         <h6>Lokasi : {{ $inventaris->user->Lokasi->nama }}</h6>
-                        {{--  <div class="col-3 mb-2">  --}}
-                            {{--  <label class="col-sm-2 col-form-label">User</label>
-                                <div class="form-group col-sm-10">
-                                    <select name="user_id" class="form-select" aria-label="Default select example"disabled>
-                                        <option selected="">Open this select menu</option>
-                                        @foreach($user as $u)
-                                        <option value="{{ $u->id }}" {{ $u->id == $inventaris->user_id ? 'selected' : '' }} ">{{ $u->name }}</option>
-                                    @endforeach
-                                        </select>
-                                </div>  --}}
-                        {{--  </div>  --}}
                     <!-- end row -->
-
-                {{--  <input type="submit" class="btn btn-info waves waves-effect waves-light" value="Update Inventory">  --}}
                 </form>
                 <!-- end row -->
             </div>
@@ -59,72 +46,22 @@
                     @csrf  --}}
                     <h4>ID : I-{{ str_pad($inventaris->id, 3, '0', STR_PAD_LEFT) }}</h4>
 
-
-                        {{--  <div class="col-3 mb-2">
-                            <label class="col-sm-2 col-form-label">User</label>
-                                <div class="form-group col-sm-10">
-                                    <select name="user_id" class="form-select" aria-label="Default select example"disabled>
-                                        <option selected="">Open this select menu</option>
-                                        @foreach($user as $u)
-                                        <option value="{{ $u->id }}" {{ $u->id == $inventaris->user_id ? 'selected' : '' }} ">{{ $u->name }}</option>
-                                    @endforeach
-                                        </select>
-                                </div>
-                        </div>  --}}
-                        {{--  <div class="col-3 mb-2">
-                            <label class="col-2 col-form-label">Lokasi</label>
-                                <div class="form-group col-sm-10">
-                                    <select name="user_id" class="form-select" aria-label="Default select example"disabled>
-                                        <option selected="">Open this select menu</option>
-                                        @foreach($user as $l)
-                                        <option value="{{ $l->divisi->id }}" {{ $l->divisi_id == $user->divisi_id ? 'selected' : '' }} >{{ $l->nama }}</option>
-                                    @endforeach
-                                        </select>
-                                </div>
-                        </div>  --}}
-
-                        {{--  <div class="col-3 mb-2">
-                            <label class="col-2 col-form-label">Divisi</label>
-                            <div class="form-group col-sm-10">
-                                <select name="user_id" class="form-select" aria-label="Default select example">
-                                    <option value="" selected disabled>Pilih Divisi</option>
-                                    @foreach($user as $u)
-                                        <option value="{{ $u->divisi_id}}" {{ $u->divisi_id== $user->divisi_id ? 'selected' : '' }}>{{ $u->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>  --}}
-
-                        {{--  <div class="col-3">
-                            <label class="col-sm-2 col-form-label">Divisi</label>
-                                <div class="form-group col-10">
-                                    <select name="divisi_id" class="form-select" aria-label="Default select example"disabled>
-                                        <option selected="">Open this select menu</option>
-                                        @foreach($divisi as $d)
-                                        <option value="{{ $d->id }}" {{ $d->id == $inventaris->divisi_id ? 'selected' : '' }} >{{ $l->nama }}</option>
-                                    @endforeach
-                                        </select>
-                                </div>
-                        </div>  --}}
                     <div class="row">
-                        <div class="col-6">
-                            <label class="col-sm-2 col-form-label">Jenis</label>
-                                <div class="form-group ">
-                                    <select name="jenis_id" class="form-select" aria-label="Default select example"disabled>
-                                        <option selected="">Open this select menu</option>
-                                        @foreach($jenis as $j)
-                                        <option value="{{ $j->id }}" {{ $j->id == $inventaris->jenis_id ? 'selected' : '' }} >{{ $j->nama }}</option>
-                                    @endforeach
-                                        </select>
-                                </div>
-                        </div>
-                        <!-- end row -->
-
                         <div class="col-6 mb-2">
-
+                            <label for="text" class="col-sm-2 col-form-label">Jenis</label>
+                            <div class="form-group col-11">
+                                <select name="jenis_id" class="form-select" aria-label="Default select example"disabled>
+                                    <option selected="">Open this select menu</option>
+                                    @foreach($jenis as $j)
+                                    <option value="{{ $j->id }}" {{ $j->id == $inventaris->jenis_id ? 'selected' : '' }} >{{ $j->nama }}</option>
+                                @endforeach
+                                    </select>
+                            </div>
                         </div>
+
                     </div>
                     <!-- end row -->
+
                     <div class="row">
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">Hostname</label>

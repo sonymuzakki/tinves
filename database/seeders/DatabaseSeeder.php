@@ -25,9 +25,13 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeederr::class);
         $this->call(UserSeeder::class);
 
-        for ($i = 1; $i <= 5000; $i++) {
-            DB::table('notes')->insert([
-                'id' => $i,
-                'deskripsi' => Str::random(100),
-            ]);
-    } }}
+        DB::table('divisi')->insert([
+            'nama' => Str::random(10),
+        ]);
+        DB::table('lokasi')->insert([
+            'nama' => Str::random(10),
+        ]);
+        DB::table('jenis')->insert([
+            'nama' => Str::random(10),
+        ]);
+    } }

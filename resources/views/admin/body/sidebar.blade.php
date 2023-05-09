@@ -71,7 +71,6 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('request.all') }}">List Request Support</a></li>
-                        {{--  <li><a href="{{ route('request.pending') }}">Request Proses</a></li>  --}}
                     </ul>
                 </li>
 
@@ -112,15 +111,22 @@
                     </ul>
                 </li>
 
-                <li>
+                {{--  <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-account-circle-line"></i>
-                        <span>Monitoring</span>
+                        <span></span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#">Network</a></li>
+                        <li><a href="">Network</a></li>
                         <li><a href="#">CCTV</a></li>
                     </ul>
+                </li>  --}}
+
+                <li>
+                    <a href="{{ route('calendar') }}" class="waves-effect">
+                        <i class="ri-file-search-line"></i><span class="badge rounded-pill bg-success float-end"></span>
+                        <span>Monitoring</span>
+                    </a>
                 </li>
 
                 {{--  <li>
