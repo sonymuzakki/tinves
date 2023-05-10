@@ -84,6 +84,7 @@ class HistoryController extends Controller
         // $history->laporan = $request->laporan;
         $history->kendala = $request->kendala;
         $history->pengerjaan = $request->pengerjaan;
+        $history->vendor = $request->vendor;
         $history->save();
 
         $notification = array(

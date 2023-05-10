@@ -169,6 +169,20 @@
                         </div>
                     </div>
 
+                    {{--  Vendor  --}}
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="mb-3">
+                                <label for="validationCustom01" class="form-label">Vendor</label>
+                                <input type="text" name="vendor" class="form-control" id="validationCustom01"
+                                    placeholder="vendor"  required >
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 <input type="submit" class="btn btn-info waves waves-effect waves-light" value="Submit">
                 </form>
                 <!-- end row -->

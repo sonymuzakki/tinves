@@ -86,7 +86,7 @@
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">Merk</label>
                             <div class="form-group col-11">
-                                <input name="merk" class="form-control" type="text" value={{ $inventaris->merk }}  id="text"disabled>
+                                <input name="merk" class="form-control" type="text" value="{{ $inventaris->merk }}"  id="text"disabled>
                             </div>
                         </div>
 

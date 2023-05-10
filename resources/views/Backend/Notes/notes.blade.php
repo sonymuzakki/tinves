@@ -25,7 +25,7 @@
             <div class="card-body">
 
                 <a href="{{ route('notesAdd') }}" class="btn btn-dark btn-rounded waves-effect waves-light"
-                    style="float:right">Add Notes</a>
+                    style="float:right">Add Notes</a><br>
                 <h4>Notes List Data</h4>
                 <table id="notes-table" class="table .table-responsive table-bordered dt-responsive" style="border-collapse:collapse;border-spacing:0; width:100%;">
                     <thead>
@@ -61,7 +61,7 @@
             createdRow: function(row, data, dataIndex) {
                 var id = data.id;
                 // mengubah id menjadi format "R-000X"
-                var formattedId = "R-" + ("" + id).slice(-3);
+                var formattedId = "N-" + ("" + id).slice(-3);
 
                 // mengubah isi sel pada kolom ID
                 $('td:eq(0)', row).html(formattedId);

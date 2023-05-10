@@ -35,6 +35,7 @@
                             <th>Laporan</th>
                             <th>Kendala</th>
                             <th>Pengerjaan</th>
+                            <th>Vendor</th>
                             <th>Tanggal</th>
                             <th>Proses</th>
                             <th>Action</th>
@@ -49,6 +50,7 @@
                                 <td>{{ $item->laporan}}</td>
                                 <td>{{ $item->kendala}}</td>
                                 <td>{{ $item->pengerjaan}}</td>
+                                <td>{{ $item->vendor}}</td>
                                 <td>{{ $item->created_at->format('d-M-Y ')}}</td>
                                 <td>
                                     @if ($item->status == "0")

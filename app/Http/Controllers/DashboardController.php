@@ -32,8 +32,8 @@ class DashboardController extends Controller
         $totalreqpen   = history::where('status','0')->count();
 
 
-        $allData = history::whereBetween('created_at',[$start_date, $end_date])->paginate(10);
-        $notes = notes::whereBetween('created_at',[$start_date, $end_date])->paginate(10);
+        $allData = history::whereBetween('created_at',[$start_date, $end_date])->get();
+        $notes = notes::whereBetween('created_at',[$start_date, $end_date])->get();
 
         return view('admin.index',compact('inventory','history','totalinven','totaluser','totalreq','totalreqpen','reqproses','allData','notes'));
 

@@ -4,6 +4,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
+<!-- DataTables -->
+<link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<!-- Responsive datatable examples -->
+<link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
 @extends('admin.admin_master')
 
 @section('admin')
@@ -102,14 +110,14 @@
 
     <!-- Datatable Support-->
     <div class="row">
-        <div class="col-9">
+        <div class="col-7">
             <div class="card">
                 <div class="card-body">
 
-                    <a href="{{ route('request.all') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right">View More</a> <br>
+                    {{--  <a href="{{ route('request.all') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right width=">View More</a><br></br>  --}}
 
                     <h4>Request Proses Data</h4>
-                    <table id="" class="table table-bordered dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
+                    <table id="scroll" class="table dt-responsive nowrap w-100" style="border-collapse:collapse;border-spacing:0; width:100%;">
                         <thead>
                             <tr>
                                 <th width="2%">No</th>
@@ -159,14 +167,14 @@
             </div>
         </div>
 
-        <div class="col-3">
+        <div class="col-5">
             <div class="card">
                 <div class="card-body">
                     <h4>Notes</h4>
-                    <table id="" class="table table-bordered dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
+                    <table id="tableScroll" class="table dt-responsive nowrap w-100" style="border-collapse:collapse;border-spacing:0; width:100%;">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th width="2%">No</th>
                                 <th>Deskripsi</th>
                                 <th>Tanggal</th>
                             </tr>
@@ -188,23 +196,32 @@
 
     <!-- FullCalendar-->
     <div class="row">
-        <div class="col-12">
+        <div class="col">
             <div class="card">
                 <div class="card-body">
                     <h4 style="border-bottom: 1px solid #000 padding-bottom:5px margin-bottom:10px">Monitoring Peripheral</h4><br>
-                    <div id="calendar"></div>
+                    <div id="calendar" style="width: 1350px; height: 1350px;"></div>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
-@section('js')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+@section('js')
+<!-- FullCalendar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- Datatables -->
+    <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<!-- Buttons examples -->
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+
+<!-- Js Fullcalendar -->
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -326,6 +343,28 @@
             toastr.success(message, 'Event');
         }
 
+</script>
+
+<!-- Js Table scroll -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tableScroll').DataTable({
+          "scrollY": "80vh",
+          "scrollCollapse": true,
+          "lengthChange": false,
+          "paging":false,
+        });
+        $('.dataTables_length').addClass('bs-select');
+      });
+    $(document).ready(function () {
+        $('#scroll').DataTable({
+            "scrollY": "80vh",
+            "scrollCollapse": true,
+            "lengthChange": false,
+            "paging":false,
+        });
+        $('.dataTables_length').addClass('bs-select');
+        });
 </script>
 
 @endsection
