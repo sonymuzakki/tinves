@@ -12,6 +12,15 @@
 <!-- Responsive datatable examples -->
 <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
+<style>
+    @media (max-width: 767px) {
+        /* Gaya untuk perangkat mobile dengan lebar maksimum 767px */
+        #calendar {
+            width: 100%;
+            height: 300px;
+        }
+        /* Atur gaya lainnya sesuai kebutuhan */
+</style>
 @extends('admin.admin_master')
 
 @section('admin')
@@ -120,7 +129,7 @@
                     <table id="scroll" class="table dt-responsive nowrap w-100" style="border-collapse:collapse;border-spacing:0; width:100%;">
                         <thead>
                             <tr>
-                                <th width="2%">No</th>
+                                <th>No</th>
                                 <th>User</th>
                                 <th>Jenis</th>
                                 <th>Laporan</th>
@@ -156,8 +165,6 @@
                                         @elseif ($item->status == '1')
                                             <h5 class="container"> - </h5>
                                         @endif
-                                         {{--  <a href="{{ route('lokasi.edit' , $item->id )}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i></a>
-                                         <a href="{{ route('lokasi.delete', $item->id) }}" class="btn btn-danger sm" title="Delete" id="delete"> <i class="fas fa-trash-alt"></i></a>  --}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -199,8 +206,8 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h4 style="border-bottom: 1px solid #000 padding-bottom:5px margin-bottom:10px">Monitoring Peripheral</h4><br>
-                    <div id="calendar" style="width: 1350px; height: 1350px;"></div>
+                    <h4 style="border-bottom: 1px solid #000 padding-bottom:2px margin-bottom:10px">Monitoring Peripheral</h4><br>
+                    <div id="calendar" style="width: 100%; height: 85%;"></div>
                 </div>
             </div>
         </div>
@@ -222,150 +229,150 @@
     <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
 
 <!-- Js Fullcalendar -->
-<script type="text/javascript">
-    $(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-        /*------------------------------------------
-        --------------------------------------------
-        Get Site URL
-        --------------------------------------------
-        --------------------------------------------*/
-        var SITEURL = "{{ url('/') }}";
+            /*------------------------------------------
+            --------------------------------------------
+            Get Site URL
+            --------------------------------------------
+            --------------------------------------------*/
+            var SITEURL = "{{ url('/') }}";
 
-        /*------------------------------------------
-        --------------------------------------------
-        CSRF Token Setup
-        --------------------------------------------
-        --------------------------------------------*/
-        $.ajaxSetup({
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+            /*------------------------------------------
+            --------------------------------------------
+            CSRF Token Setup
+            --------------------------------------------
+            --------------------------------------------*/
+            $.ajaxSetup({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-        /*------------------------------------------
-        --------------------------------------------
-        FullCalender JS Code
-        --------------------------------------------
-        --------------------------------------------*/
-        var calendar = $('#calendar').fullCalendar({
-                        editable: true,
-                        events: SITEURL + "/fullcalender",
-                        displayEventTime: false,
-                        editable: true,
-                        eventRender: function (event, element, view) {
-                            if (event.allDay === 'true') {
-                                    event.allDay = true;
-                            } else {
-                                    event.allDay = false;
-                            }
-                        },
-                        selectable: true,
-                        selectHelper: true,
-                        select: function (start, end, allDay) {
-                            var title = prompt('Event Title:');
-                            if (title) {
-                                var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
-                                var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
-                                $.ajax({
-                                    url: SITEURL + "/fullcalenderAjax",
-                                    data: {
-                                        title: title,
-                                        start: start,
-                                        end: end,
-                                        type: 'add'
-                                    },
-                                    type: "POST",
-                                    success: function (data) {
-                                        displayMessage("Event Created Successfully");
-
-                                        calendar.fullCalendar('renderEvent',
-                                            {
-                                                id: data.id,
-                                                title: title,
-                                                start: start,
-                                                end: end,
-                                                allDay: allDay
-                                            },true);
-
-                                        calendar.fullCalendar('unselect');
-                                    }
-                                });
-                            }
-                        },
-                        eventDrop: function (event, delta) {
-                            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
-                            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
-
-                            $.ajax({
-                                url: SITEURL + '/fullcalenderAjax',
-                                data: {
-                                    title: event.title,
-                                    start: start,
-                                    end: end,
-                                    id: event.id,
-                                    type: 'update'
-                                },
-                                type: "POST",
-                                success: function (response) {
-                                    displayMessage("Event Updated Successfully");
+            /*------------------------------------------
+            --------------------------------------------
+            FullCalender JS Code
+            --------------------------------------------
+            --------------------------------------------*/
+            var calendar = $('#calendar').fullCalendar({
+                            editable: true,
+                            events: SITEURL + "/fullcalender",
+                            displayEventTime: false,
+                            editable: true,
+                            eventRender: function (event, element, view) {
+                                if (event.allDay === 'true') {
+                                        event.allDay = true;
+                                } else {
+                                        event.allDay = false;
                                 }
-                            });
-                        },
-                        eventClick: function (event) {
-                            var deleteMsg = confirm("Do you really want to delete?");
-                            if (deleteMsg) {
+                            },
+                            selectable: true,
+                            selectHelper: true,
+                            select: function (start, end, allDay) {
+                                var title = prompt('Event Title:');
+                                if (title) {
+                                    var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
+                                    var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
+                                    $.ajax({
+                                        url: SITEURL + "/fullcalenderAjax",
+                                        data: {
+                                            title: title,
+                                            start: start,
+                                            end: end,
+                                            type: 'add'
+                                        },
+                                        type: "POST",
+                                        success: function (data) {
+                                            displayMessage("Event Created Successfully");
+
+                                            calendar.fullCalendar('renderEvent',
+                                                {
+                                                    id: data.id,
+                                                    title: title,
+                                                    start: start,
+                                                    end: end,
+                                                    allDay: allDay
+                                                },true);
+
+                                            calendar.fullCalendar('unselect');
+                                        }
+                                    });
+                                }
+                            },
+                            eventDrop: function (event, delta) {
+                                var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
+                                var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
+
                                 $.ajax({
-                                    type: "POST",
                                     url: SITEURL + '/fullcalenderAjax',
                                     data: {
-                                            id: event.id,
-                                            type: 'delete'
+                                        title: event.title,
+                                        start: start,
+                                        end: end,
+                                        id: event.id,
+                                        type: 'update'
                                     },
+                                    type: "POST",
                                     success: function (response) {
-                                        calendar.fullCalendar('removeEvents', event.id);
-                                        displayMessage("Event Deleted Successfully");
+                                        displayMessage("Event Updated Successfully");
                                     }
                                 });
+                            },
+                            eventClick: function (event) {
+                                var deleteMsg = confirm("Do you really want to delete?");
+                                if (deleteMsg) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: SITEURL + '/fullcalenderAjax',
+                                        data: {
+                                                id: event.id,
+                                                type: 'delete'
+                                        },
+                                        success: function (response) {
+                                            calendar.fullCalendar('removeEvents', event.id);
+                                            displayMessage("Event Deleted Successfully");
+                                        }
+                                    });
+                                }
                             }
-                        }
 
-                    });
+                        });
 
-        });
+            });
 
-        /*------------------------------------------
-        --------------------------------------------
-        Toastr Success Code
-        --------------------------------------------
-        --------------------------------------------*/
-        function displayMessage(message) {
-            toastr.success(message, 'Event');
-        }
+            /*------------------------------------------
+            --------------------------------------------
+            Toastr Success Code
+            --------------------------------------------
+            --------------------------------------------*/
+            function displayMessage(message) {
+                toastr.success(message, 'Event');
+            }
 
-</script>
+    </script>
 
 <!-- Js Table scroll -->
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#tableScroll').DataTable({
-          "scrollY": "80vh",
-          "scrollCollapse": true,
-          "lengthChange": false,
-          "paging":false,
-        });
-        $('.dataTables_length').addClass('bs-select');
-      });
-    $(document).ready(function () {
-        $('#scroll').DataTable({
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tableScroll').DataTable({
             "scrollY": "80vh",
             "scrollCollapse": true,
             "lengthChange": false,
             "paging":false,
+            });
+            $('.dataTables_length').addClass('bs-select');
         });
-        $('.dataTables_length').addClass('bs-select');
-        });
-</script>
+        $(document).ready(function () {
+            $('#scroll').DataTable({
+                "scrollY": "80vh",
+                "scrollCollapse": true,
+                "lengthChange": false,
+                "paging":false,
+            });
+            $('.dataTables_length').addClass('bs-select');
+            });
+    </script>
 
 @endsection
 @endsection

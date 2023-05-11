@@ -3959,3 +3959,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     padding-bottom: 5px;
     margin-bottom: 10px;
 }
+@media (max-width: 767px) {
+    .dataTables_filter {
+      text-align: center; /* Mengatur posisi tombol search menjadi tengah pada perangkat mobile */
+    }
+  }
+
