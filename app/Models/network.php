@@ -10,5 +10,5 @@ class network extends Model
     use HasFactory;
     protected $table = 'network';
     // protected $guarded = [];
-    protected $fillable = ['title','start','end'];
+    protected $fillable = ['title','start','end','color','backgroundColor'];
 }

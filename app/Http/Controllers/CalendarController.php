@@ -39,7 +39,7 @@ class CalendarController extends Controller
 
             $data = network::whereDate('start', '>=', $request->start)
                        ->whereDate('end',   '<=', $request->end)
-                       ->get(['id', 'title', 'start', 'end']);
+                       ->get(['id', 'title', 'start', 'end','color','backgroundColor']);
 
             return response()->json($data);
         }
@@ -59,7 +59,9 @@ class CalendarController extends Controller
                 $event = network::create([
                     'title' => $request->title,
                     'start' => $request->start,
-                    'end' => $request->end,
+                    'end'   => $request->end,
+                    'color' => $request->color,
+                    'backgroundColor' => $request->backgroundColor,
                 ]);
 
                 return response()->json($event);
@@ -70,6 +72,8 @@ class CalendarController extends Controller
                     'title' => $request->title,
                     'start' => $request->start,
                     'end' => $request->end,
+                    'color' => $request->color,
+                    'backgroundColor' => $request->backgroundColor,
                 ]);
 
                 return response()->json($event);

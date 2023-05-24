@@ -31,7 +31,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h2 class="mb-sm-0">Dashboard</h2>
+                <h2 class="mb-sm-0">Dashboard </h2>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
@@ -201,13 +201,24 @@
         </div>
     </div>
 
-    <!-- FullCalendar-->
+    <!-- FullCalendar -->
     <div class="row">
         <div class="col">
             <div class="card">
                 <div class="card-body">
                     <h4 style="border-bottom: 1px solid #000 padding-bottom:2px margin-bottom:10px">Monitoring Peripheral</h4><br>
+                        <select id="color" >
+                            <option value="danger">Danger</option>
+                            <option value="alert">Alert</option>
+                            <option value="success">Success</option>
+                        </select><br></br>
                     <div id="calendar" style="width: 100%; height: 85%;"></div>
+
+                    <p>Keterangan :  </p>
+                    <p>1. Hijau = OK </p>
+                    <p>2. Orange = Pending Perbaikan </p>
+                    <p>3. Merah = Pergantian </p>
+
                 </div>
             </div>
         </div>
@@ -228,33 +239,18 @@
     <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
 
-<!-- Js Fullcalendar -->
+  <!-- Js Fullcalendar -->
+
     <script type="text/javascript">
         $(document).ready(function () {
-
-            /*------------------------------------------
-            --------------------------------------------
-            Get Site URL
-            --------------------------------------------
-            --------------------------------------------*/
             var SITEURL = "{{ url('/') }}";
 
-            /*------------------------------------------
-            --------------------------------------------
-            CSRF Token Setup
-            --------------------------------------------
-            --------------------------------------------*/
             $.ajaxSetup({
                 headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            /*------------------------------------------
-            --------------------------------------------
-            FullCalender JS Code
-            --------------------------------------------
-            --------------------------------------------*/
             var calendar = $('#calendar').fullCalendar({
                             editable: true,
                             events: SITEURL + "/fullcalender",
@@ -270,30 +266,48 @@
                             selectable: true,
                             selectHelper: true,
                             select: function (start, end, allDay) {
-                                var title = prompt('Event Title:');
+                                var title = prompt('Event Title: ');
+
                                 if (title) {
                                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
                                     var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
+
+                                    var color = $("#color").val();
+                                    var backgroundColor = '';
+
+                                    if (color === 'success') {
+                                        backgroundColor = 'green';
+                                    } else if (color === 'alert') {
+                                        backgroundColor = 'orange';
+                                    } else if (color === 'danger') {
+                                        backgroundColor = 'red';
+                                    } else {
+                                        backgroundColor = 'blue';
+                                    }
+
                                     $.ajax({
                                         url: SITEURL + "/fullcalenderAjax",
                                         data: {
                                             title: title,
                                             start: start,
                                             end: end,
+                                            color:color,
+                                            backgroundColor:backgroundColor,
                                             type: 'add'
                                         },
                                         type: "POST",
                                         success: function (data) {
                                             displayMessage("Event Created Successfully");
 
-                                            calendar.fullCalendar('renderEvent',
-                                                {
-                                                    id: data.id,
-                                                    title: title,
-                                                    start: start,
-                                                    end: end,
-                                                    allDay: allDay
-                                                },true);
+                                            calendar.fullCalendar('renderEvent', {
+                                                id: data.id,
+                                                title: title,
+                                                start: start,
+                                                end: end,
+                                                color: color,
+                                                allDay: allDay,
+                                                backgroundColor: backgroundColor
+                                            }, true);
 
                                             calendar.fullCalendar('unselect');
                                         }
@@ -341,16 +355,13 @@
 
             });
 
-            /*------------------------------------------
-            --------------------------------------------
-            Toastr Success Code
-            --------------------------------------------
-            --------------------------------------------*/
             function displayMessage(message) {
                 toastr.success(message, 'Event');
             }
 
     </script>
+
+
 
 <!-- Js Table scroll -->
     <script type="text/javascript">
@@ -375,4 +386,5 @@
     </script>
 
 @endsection
+
 @endsection
