@@ -232,7 +232,7 @@
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">Merk</label>
                             <div class="form-group col-11">
-                                <input name="merk" class="form-control" type="text" value={{ $inventaris->merk }} placeholder="" id="text">
+                                <input name="merk" class="form-control" type="text" value="{{ $inventaris->merk }}" placeholder="" id="text">
                             </div>
                         </div>
 
@@ -251,35 +251,19 @@
                     </div>
                     <!-- end row -->
 
-                    <div class="row">
-                        <div class="col-6 mb-2">
-                            <label for="text" class="col-sm-2 col-form-label">Merk</label>
-                            <div class="form-group col-11">
-                                <input name="merk" class="form-control" type="text" value={{ $inventaris->merk }} placeholder="" id="text">
-                            </div>
-                        </div>
 
-                        <div class="col-6">
-                            <label for="text" class="col-sm-2 col-form-label">AkunOffice</label>
-                            <div class="form-group col-11">
-                                <input name="akunOffice" class="form-control" type="text" value={{ $inventaris->akunOffice }} placeholder="" id="text">
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- end row -->
 
                     <div class="row">
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">Processor</label>
                             <div class="form-group col-11">
-                                <input name="Processor" class="form-control" type="text" value={{ $inventaris->Processor }} placeholder="" id="text">
+                                <input name="Processor" class="form-control" type="text" value="{{ $inventaris->Processor }}" placeholder="" id="text">
                             </div>
                         </div>
                         <div class="col-6">
                             <label for="text" class="col-sm-2 col-form-label">AkunOffice</label>
                             <div class="form-group col-11">
-                                <input name="akunOffice" class="form-control" type="text" value={{ $inventaris->akunOffice }} placeholder="" id="text">
+                                <input name="akunOffice" class="form-control" type="text" value="{{ $inventaris->akunOffice }}" placeholder="" id="text">
                             </div>
                         </div>
                     </div>
@@ -289,13 +273,13 @@
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">RAM</label>
                             <div class="form-group col-11">
-                                <input name="ram" class="form-control" type="text" value={{ $inventaris->ram }} placeholder="" id="text">
+                                <input name="ram" class="form-control" type="text" value="{{ $inventaris->ram }}" placeholder="" id="text">
                             </div>
                         </div>
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">SSD</label>
                             <div class="form-group col-11">
-                                <input name="ssd" class="form-control" type="text" value={{ $inventaris->ssd }} placeholder="" id="text">
+                                <input name="ssd" class="form-control" type="text" value="{{ $inventaris->ssd }}" placeholder="" id="text">
                             </div>
                         </div>
                     </div>
@@ -305,7 +289,7 @@
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">Grafik</label>
                             <div class="form-group col-11">
-                                <input name="grafik" class="form-control" type="text" value={{ $inventaris->grafik }}  placeholder="" id="text">
+                                <input name="grafik" class="form-control" type="text" value="{{ $inventaris->grafik }}"  placeholder="" id="text">
                             </div>
                         </div>
                         <div class="col-6 mb-2">
@@ -326,7 +310,7 @@
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">Hardisk</label>
                             <div class="form-group col-11">
-                                <input name="hardisk" class="form-control"  type="text" value={{ $inventaris->hardisk }}  placeholder="" id="text">
+                                <input name="hardisk" class="form-control"  type="text" value="{{ $inventaris->hardisk }}"  placeholder="" id="text">
                             </div>
                         </div>
                         <div class="col-6 mb-2">
@@ -375,13 +359,13 @@
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">Ip Address</label>
                             <div class="form-group col-11">
-                                <input name="ipaddress" value={{ $inventaris->ipaddress }} class="form-control" type="text"  placeholder="" id="text">
+                                <input name="ipaddress" value="{{ $inventaris->ipaddress }}" class="form-control" type="text"  placeholder="" id="text">
                             </div>
                         </div>
                         <div class="col-6 mb-2">
                             <label for="text" class="col-sm-2 col-form-label">Anydesk ID</label>
                             <div class="form-group col-11">
-                                <input name="anydeskid"  class="form-control" type="text" value={{ $inventaris->anydeskid }} placeholder="" id="text">
+                                <input name="anydeskid"  class="form-control" type="text" value="{{ $inventaris->anydeskid }}" placeholder="" id="text">
                             </div>
                         </div>
                     </div>

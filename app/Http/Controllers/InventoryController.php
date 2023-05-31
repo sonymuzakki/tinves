@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Printer;
 use App\Models\Jenis;
 use App\Models\Divisi;
 use App\Models\Lokasi;
@@ -192,5 +193,76 @@ class InventoryController extends Controller
 
         return view('Backend.inventoryDetails',compact('inventaris','user','jenis','history'));
          }
+
+        //  public function printer(){
+        //     $printer = printer::all();
+        //     return view('Backend.Peripheral.printer',compact('printer'));
+        //  }
+
+        public function printer_json(){
+            return DataTables::of(Printer::limit(10))->make(true);
+        }
+        public function index_printer(Request $request){
+            $printer = Printer::all();
+            if ($request->ajax()) {
+                $printer = Printer::latest()->get();
+                return DataTables::of($printer)
+                    ->addIndexColumn()
+                    ->addColumn('user.name', function($printer) {
+                        return $printer->user->name;
+                    })
+                    ->addColumn('jenis.nama', function($inventaris) {
+                        return $inventaris->jenis->nama;
+                    })
+                    ->editColumn("created_at",function($printer){
+                        return date("m/d/Y",strtotime($printer->created_at));
+                    })
+                    ->addColumn('action', function($row){
+                        $btn = '<a href="'.route('printer.show',$row->id).'" class="edit btn btn-primary btn-sm">View</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+            return view('Backend.Peripheral.printer',compact('printer'));
+        }
+
+         public function add_printer(Request $request){
+             $user = user::all();
+             $jenis = Jenis::all();
+            return view('Backend.Peripheral.printerAdd',compact('jenis','user'));
+         }
+
+         public function printerStore(Request $request){
+            $printer = Printer::insert([
+                'deskripsi' => $request->deskripsi,
+                'created_at' =>Carbon::now(),
+            ]);
+            $notification = array (
+                'message' => 'printer Insert Successfully',
+                'alert-type' => 'success',
+            );
+            return redirect()->route('printer-json')->with($notification);
+        }
+
+        public function printerEdit($id){
+            $printer = Printer::findOrFail($id);
+            return view('Backend.printer.printerEdit',compact('printer'));
+        }
+
+        public function printerUpdate(Request $request){
+            $id = $request->id;
+            // @dd($request);
+            Printer::findOrFail($id)->update([
+                'deskripsi' => $request->deskripsi,
+                'updated_at' => Carbon::now(),
+            ]);
+            $notification = array(
+                'message' => 'Printer Updated Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('printer-json')->with($notification);
+        }
+
 
 }

@@ -61,6 +61,12 @@ Route::controller(InventoryController::class)->group(function () {
     Route::get('/InventarisDetails-{id}','InventarisDetails')->name('invetaris.details')->middleware('role:admin');
     Route::get('/json', 'json')->name('json')->middleware('role:admin');
     Route::get('/index', 'index_json')->name('index_json')->middleware('role:admin');
+
+    // Printer
+    Route::get('/json', 'printer_json')->name('printer-json')->middleware('role:admin');
+    Route::get('/Printer', 'index_printer')->name('index-printer')->middleware('role:admin');
+    Route::get('/add-printer', 'add_printer')->name('add-printer')->middleware('role:admin');
+
 });
 
 
