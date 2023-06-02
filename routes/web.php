@@ -63,9 +63,13 @@ Route::controller(InventoryController::class)->group(function () {
     Route::get('/index', 'index_json')->name('index_json')->middleware('role:admin');
 
     // Printer
-    Route::get('/json', 'printer_json')->name('printer-json')->middleware('role:admin');
-    Route::get('/Printer', 'index_printer')->name('index-printer')->middleware('role:admin');
+    Route::get('/json', 'json_printer')->name('json_printer')->middleware('role:admin');
+    Route::get('/Printer', 'index_printer')->name('index_printer')->middleware('role:admin');
     Route::get('/add-printer', 'add_printer')->name('add-printer')->middleware('role:admin');
+    Route::post('/store-printer', 'store_printer')->name('store-printer')->middleware('role:admin');
+    Route::get('/edit-printer-{id}', 'edit_printer')->name('edit-printer')->middleware('role:admin');
+    Route::post('/update-printer-{id}', 'update_printer')->name('update-printer')->middleware('role:admin');
+    Route::get('/delete-printer-{id}', 'delete_printer')->name('delete-printer')->middleware('role:admin');
 
 });
 

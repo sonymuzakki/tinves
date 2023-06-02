@@ -34,7 +34,6 @@
                             <th>Deskripsi</th>
                             <th>Tanggal</th>
                             <th>Action</th>
-                            {{--  <th>Action</th>  --}}
                         </tr>
                     </thead>
 

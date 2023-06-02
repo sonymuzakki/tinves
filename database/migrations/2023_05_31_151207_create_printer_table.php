@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('jenis_id');
             $table->string('merk');
-            $table->date('tanggal');
+            $table->dateTime('tanggal');
             $table->timestamps();
         });
     }

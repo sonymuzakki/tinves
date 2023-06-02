@@ -194,75 +194,207 @@ class InventoryController extends Controller
         return view('Backend.inventoryDetails',compact('inventaris','user','jenis','history'));
          }
 
-        //  public function printer(){
-        //     $printer = printer::all();
+        // //  public function printer(){
+        // //     $printer = printer::all();
+        // //     return view('Backend.Peripheral.printer',compact('printer'));
+        // //  }
+
+        // public function printer_json(){
+        //     return DataTables::of(Printer::limit(10))->make(true);
+        // }
+        // public function index_printer(Request $request){
+        //     $printer = Printer::all();
+        //     if ($request->ajax()) {
+        //         $printer = Printer::latest()->get();
+        //         return DataTables::of($printer)
+        //             ->addIndexColumn()
+        //             ->addColumn('user.name', function($printer) {
+        //                 return $printer->user->name;
+        //             })
+        //             ->addColumn('jenis.nama', function($inventaris) {
+        //                 return $inventaris->jenis->nama;
+        //             })
+        //             ->editColumn("created_at",function($printer){
+        //                 return date("m/d/Y",strtotime($printer->created_at));
+        //             })
+        //             ->addColumn('action', function($row){
+        //                 $btn = '<a href="'.route('printer.show',$row->id).'" class="edit btn btn-primary btn-sm">View</a>';
+        //                 return $btn;
+        //             })
+        //             ->rawColumns(['action'])
+        //             ->make(true);
+        //     }
         //     return view('Backend.Peripheral.printer',compact('printer'));
+        // }
+
+        //  public function add_printer(Request $request){
+        //      $user = user::all();
+        //      $jenis = Jenis::all();
+        //     return view('Backend.Peripheral.printerAdd',compact('jenis','user'));
         //  }
 
-        public function printer_json(){
+        //  public function printerStore(Request $request){
+        //     $printer = Printer::insert([
+        //         'deskripsi' => $request->deskripsi,
+        //         'created_at' =>Carbon::now(),
+        //     ]);
+        //     $notification = array (
+        //         'message' => 'printer Insert Successfully',
+        //         'alert-type' => 'success',
+        //     );
+        //     return redirect()->route('printer-json')->with($notification);
+        // }
+
+        // public function printerEdit($id){
+        //     $printer = Printer::findOrFail($id);
+        //     return view('Backend.printer.printerEdit',compact('printer'));
+        // }
+
+        // public function printerUpdate(Request $request){
+        //     $id = $request->id;
+        //     // @dd($request);
+        //     Printer::findOrFail($id)->update([
+        //         'deskripsi' => $request->deskripsi,
+        //         'updated_at' => Carbon::now(),
+        //     ]);
+        //     $notification = array(
+        //         'message' => 'Printer Updated Successfully',
+        //         'alert-type' => 'success'
+        //     );
+        //     return redirect()->route('printer-json')->with($notification);
+        // }
+
+        //Printer
+
+        public function json_printer(){
             return DataTables::of(Printer::limit(10))->make(true);
         }
+
         public function index_printer(Request $request){
-            $printer = Printer::all();
+            $data = Printer::all();
             if ($request->ajax()) {
-                $printer = Printer::latest()->get();
-                return DataTables::of($printer)
+                $data = Printer::latest()->get();
+                return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('user.name', function($printer) {
-                        return $printer->user->name;
+                    ->addColumn('user.name', function($users) {
+                        return $users->user->name;
                     })
                     ->addColumn('jenis.nama', function($inventaris) {
                         return $inventaris->jenis->nama;
                     })
-                    ->editColumn("created_at",function($printer){
-                        return date("m/d/Y",strtotime($printer->created_at));
+                    ->editColumn("created_at",function($data){
+                        return date("m/d/Y",strtotime($data->created_at));
                     })
                     ->addColumn('action', function($row){
-                        $btn = '<a href="'.route('printer.show',$row->id).'" class="edit btn btn-primary btn-sm">View</a>';
+                        $btn = '<a href="'.route('notes.show',$row->id).'" class="edit btn btn-primary btn-sm">View</a>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
                     ->make(true);
             }
-            return view('Backend.Peripheral.printer',compact('printer'));
+            return view('Backend.Peripheral.printer',compact('data'));
         }
 
-         public function add_printer(Request $request){
-             $user = user::all();
-             $jenis = Jenis::all();
-            return view('Backend.Peripheral.printerAdd',compact('jenis','user'));
-         }
+        public function add_printer(){
+            $printer = Printer::all();
+            $users = user::all();
+            $jenis = jenis::all();
+            return view('Backend.Peripheral.printerAdd',compact('printer','jenis','users'));
+        }
 
-         public function printerStore(Request $request){
-            $printer = Printer::insert([
-                'deskripsi' => $request->deskripsi,
-                'created_at' =>Carbon::now(),
-            ]);
+        public function printerAll(){
+          $printer = Printer::all();
+          return view('Backend.Peripheral.printer',compact('printer'));
+        }
+
+        public function store_printer(Request $request){
+
+            // Ambil nilai tanggal dari input form
+            $tanggal = $request->input('tanggal');
+
+            // Konversi tanggal menjadi objek Carbon
+            $carbonDate = Carbon::createFromFormat('d M, Y', $tanggal);
+
+            // Format ulang tanggal menjadi 'Y-m-d'
+            $formattedDate = $carbonDate->format('Y-m-d');
+
+            // Simpan data printer
+            $printer = new Printer();
+            $printer->user_id = $request->user_id;
+            $printer->jenis_id = $request->jenis_id;
+            $printer->merk = $request->merk;
+            $printer->tanggal = $formattedDate;
+            $printer->save();
+
             $notification = array (
-                'message' => 'printer Insert Successfully',
+                'message' => 'Printer Insert Successfully',
                 'alert-type' => 'success',
             );
-            return redirect()->route('printer-json')->with($notification);
+            return redirect()->route('index_printer')->with($notification);
         }
 
-        public function printerEdit($id){
+        public function edit_printer($id){
             $printer = Printer::findOrFail($id);
-            return view('Backend.printer.printerEdit',compact('printer'));
+            $users = user::all();
+            $jenis = Jenis::all();
+            return view('Backend.Peripheral.editPrinter',compact('printer','users','jenis'));
         }
 
-        public function printerUpdate(Request $request){
+        public function update_printer(Request $request){
             $id = $request->id;
             // @dd($request);
-            Printer::findOrFail($id)->update([
-                'deskripsi' => $request->deskripsi,
+            $formattedTanggal = date('Y-m-d', strtotime($request->tanggal));
+
+            printer::findOrFail($id)->update([
+                'user_id' => $request->user_id,
+                'jenis_id' => $request->jenis_id,
+                'merk' => $request->merk,
+                'tanggal' => $formattedTanggal,
                 'updated_at' => Carbon::now(),
             ]);
+
             $notification = array(
                 'message' => 'Printer Updated Successfully',
                 'alert-type' => 'success'
             );
-            return redirect()->route('printer-json')->with($notification);
+            return redirect()->route('index_printer')->with($notification);
         }
+
+        public function delete_printer($id){
+            Printer::findOrFail($id)->delete();
+
+            $notification = array(
+                'message' => 'Printer Deleted Successfully',
+                'alert-type' => 'success'
+            );
+
+        return redirect()->back()->with($notification);
+        }
+
+        // public function finish($id){
+
+        //     $notes = notes::findOrFail($id);
+
+        //     if($notes->save()){
+
+        //         notes::findOrFail($id)->update([
+        //             'status' => '1',
+        //         ]);
+
+        //         // Update status pada database
+        //     $notes = notes::findOrFail($id);
+        //     $notes->status = 1;
+        //     $notes->save();
+
+        //          $notification = array(
+        //     'message' => 'Status Approved Successfully',
+        //     'alert-type' => 'success'
+        //       );
+        // return redirect()->route('notes-json')->with($notification);
+
+        //     }
+
+        // }// End Method
 
 
 }

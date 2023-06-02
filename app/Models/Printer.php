@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Printer extends Model
 {
     use HasFactory;
-    protected $table = 'inventory';
+    protected $table = 'printer';
     protected $guarded = [];
 
 

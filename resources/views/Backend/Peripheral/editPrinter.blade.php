@@ -21,9 +21,9 @@
     <div class="col-10">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="{{ route('store-printer') }}" enctype="multipart/from-data" id="myForm">
+                <form method="POST" action="{{ route('update-printer',$printer->id) }}" enctype="multipart/from-data" id="myForm">
                     @csrf
-                    
+
 
                     <div class="col-12 mb-3">
                         <label class="col-sm-12 col-form-label">User</label>
@@ -42,7 +42,7 @@
                             <select name="jenis_id" class="form-select" aria-label="Default select example">
                                 <option selected="">Open this select menu</option>
                                 @foreach($jenis as $j)
-                                <option value="{{ $j->id }}"> {{ $j->nama }}</option>
+                                    <option value="{{ $j->id }}" {{ $j->id == $printer->jenis_id ? 'selected' : '' }} >{{ $j->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -52,7 +52,7 @@
                             <div class="mb-4">
                                 <label class="form-label">Tahun Pembelian</label>
                                 <div class="input-group" id="datepicker1">
-                                    <input type="text" class="form-control" name="tanggal" placeholder="dd M, yyyy"
+                                    <input type="text" class="form-control" name="tanggal" value="{{ date('d-m-Y', strtotime($printer->tanggal)) }}" placeholder="dd M, yyyy"
                                     data-date-format="dd M, yyyy" data-date-container='#datepicker1' data-provide="datepicker">
                                     <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                 </div>
@@ -64,7 +64,7 @@
                             <div class="col-sm-12">
                                 <div class="mb-4">
                                     <label for="" class="form-label">Merk</label>
-                                        <input type="text" name="merk" class="form-control" id=""
+                                        <input type="text" name="merk" value="{{ $printer->merk }}" class="form-control" id=""
                                             placeholder="Merk" value="" required>
                                         <div class="valid-feedback">
                                             Looks good!

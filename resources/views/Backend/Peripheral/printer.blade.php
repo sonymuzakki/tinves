@@ -1,4 +1,3 @@
-
 @extends('admin.admin_master')
 
 @section('admin')
@@ -19,7 +18,7 @@
     </div>
 </div>
 
-<!-- Datatable Notes-->
+<!-- Datatable Printer-->
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -36,8 +35,10 @@
                             <th>Jenis</th>
                             <th>Merk</th>
                             <th>Tanggal Pembelian</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
+
 
                 </table>
             </div>
@@ -46,49 +47,40 @@
 </div>
 
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script type="text/javascript">
     $(function (){
         $('#printer-table').DataTable({
-            processing:true,
-            serverSide:true,
-            ajax:'{{ route('notes-json') }}',
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('index_printer') }}',
             columns:[
-                {data:'DT_RowIndex', name:'DT_RowIndex', orderable: false, searchable: false},
-                {data:'Users',name:'Users'},
-                {data:'jenis',name:'jenis'},
-                {data:'merk',name:'merk'},
-                {data:'date',name:'date'},
-                {data:'merk',name:'action'},
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'user.name', name: 'user.name'},
+                {data: 'jenis.nama', name: 'jenis.nama'},
+                {data: 'merk', name: 'merk'},
+                {data: 'tanggal', name: 'tanggal',
+                render: function(data, type, full, meta) {
+                    // Mengubah format tanggal menggunakan moment.js
+                    var formattedDate = moment(data).format('DD MMM, YYYY');
+                    return formattedDate;
+                }},
+                {data: 'action', name: 'action'},
+
             ],
 
             createdRow: function(row, data, dataIndex) {
                 var id = data.id;
-                // mengubah id menjadi format "R-000X"
-                var formattedId = "N-" + ("" + id).slice(-3);
-
+                // mengubah id menjadi format "I-000X"
+                var formattedId = "I-" + ("" + id).slice(-3);
                 // mengubah isi sel pada kolom ID
                 $('td:eq(0)', row).html(formattedId);
 
                 // menambahkan tombol Edit dan Delete
-                {{--  var actionBtns = '<a href="/notesEdit-' + data.id + '" class="btn btn-success btn-sm mr-2 edit-btn ' + (data.is_finished ? ' disabled-btn' : '') + '" style="margin-right: 4px;"><i class="fas fa-edit"></i></a>';  --}}
-
-
-                if (!data.is_finished) {
-                    actionBtns += '<a href="/finish-' + data.id + '" class="btn btn-primary btn-sm finish-btn" onclick="return confirm(\'Apakah sudah yakin notes sudah selesai?\')"> <i class="fas fa-check-circle"></i> </a>';
-                } else {
-                    actionBtns += '<a href="#" class="btn btn-primary btn-sm finish-btn disabled-btn">Selesai</a>';
-                }
-
-                $('td:eq(3)', row).html(actionBtns);
-
-                // Tambahkan event click pada tombol Finish
-                $('td:eq(3)', row).on('click', '.finish-btn', function(e) {
-                    e.preventDefault();
-                    // Hilangkan tombol Edit dan Delete
-                    $(this).siblings('.edit-btn, .delete-btn').remove();
-                    // Tambahkan class CSS agar tombol Finish tidak bisa diklik
-                    $(this).addClass('disabled-btn').css({'pointer-events': 'none', 'opacity': 0.5}).css({ 'display':'block' , 'margin': '0 auto'});
-                });
+                var actionBtns = '<a href="/edit-printer-' + data.id + '" class="btn btn-success btn-sm mr-2" style="margin-right: 4px;"> <i class="fas fa-edit"></i></a>' +
+                                 '<a href="/delete-printer-' + data.id + '" class="btn btn-danger btn-sm" style="margin-right: 4px;"> <i class="fas fa-trash-alt"></i></a>' +
+                                 '<a href="/InventarisDetails-' + data.id + '" class="btn btn-info btn-sm" style="margin-right: 4px;"> <i class="fa thin fa-info"></i></a>';
+                $('td:eq(5)', row).html(actionBtns);
             }
         });
     });
