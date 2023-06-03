@@ -5,12 +5,12 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h3 class="mb-sm-2">List Printer</h3><br></br><hr>
+            <h3 class="mb-sm-2">List Ups</h3><br></br><hr>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="">Pages</a></li>
-                    <li class="breadcrumb-item active">Printer
+                    <li class="breadcrumb-item active">Ups
                     </li>
                 </ol>
             </div>
@@ -24,10 +24,10 @@
         <div class="card">
             <div class="card-body">
 
-                <a href="{{ route('add-printer') }}" class="btn btn-dark btn-rounded waves-effect waves-light"
-                    style="float:right">Add Printer</a><br>
-                <h4>Printer List Data</h4>
-                <table id="printer-table" class="table .table-responsive table-bordered dt-responsive" style="border-collapse:collapse;border-spacing:0; width:100%;">
+                <a href="{{ route('add-ups') }}" class="btn btn-dark btn-rounded waves-effect waves-light"
+                    style="float:right">Add ups</a><br>
+                <h4>ups List Data</h4>
+                <table id="ups-table" class="table .table-responsive table-bordered dt-responsive" style="border-collapse:collapse;border-spacing:0; width:100%;">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -50,10 +50,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script type="text/javascript">
     $(function (){
-        $('#printer-table').DataTable({
+        $('#ups-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('index_printer') }}',
+            ajax: '{{ route('index_ups') }}',
             columns:[
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'user.name', name: 'user.name'},
@@ -77,9 +77,9 @@
                 $('td:eq(0)', row).html(formattedId);
 
                 // menambahkan tombol Edit dan Delete
-                var actionBtns = '<a href="/edit-printer-' + data.id + '" class="btn btn-success btn-sm mr-2" style="margin-right: 4px;"> <i class="fas fa-edit"></i></a>' +
-                                 '<a href="/delete-printer-' + data.id + '" class="btn btn-danger btn-sm" style="margin-right: 4px;"> <i class="fas fa-trash-alt"></i></a>' +
-                                 '<a href="/details-printer-' + data.id + '" class="btn btn-info btn-sm" style="margin-right: 4px;"> <i class="fa thin fa-info"></i></a>';
+                var actionBtns = '<a href="/edit-ups-' + data.id + '" class="btn btn-success btn-sm mr-2" style="margin-right: 4px;"> <i class="fas fa-edit"></i></a>' +
+                                 '<a href="/delete-ups-' + data.id + '" class="btn btn-danger btn-sm" style="margin-right: 4px;"> <i class="fas fa-trash-alt"></i></a>' +
+                                 '<a href="/details-ups-' + data.id + '" class="btn btn-info btn-sm" style="margin-right: 4px;"> <i class="fa thin fa-info"></i></a>';
                 $('td:eq(5)', row).html(actionBtns);
             }
         });

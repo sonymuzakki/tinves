@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 
 use Carbon\Carbon;
+use App\Models\ups;
 use App\Models\User;
-use App\Models\Printer;
 use App\Models\Jenis;
 use App\Models\Divisi;
 use App\Models\Lokasi;
 use App\Models\history;
+use App\Models\Printer;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -194,77 +195,7 @@ class InventoryController extends Controller
         return view('Backend.inventoryDetails',compact('inventaris','user','jenis','history'));
          }
 
-        // //  public function printer(){
-        // //     $printer = printer::all();
-        // //     return view('Backend.Peripheral.printer',compact('printer'));
-        // //  }
-
-        // public function printer_json(){
-        //     return DataTables::of(Printer::limit(10))->make(true);
-        // }
-        // public function index_printer(Request $request){
-        //     $printer = Printer::all();
-        //     if ($request->ajax()) {
-        //         $printer = Printer::latest()->get();
-        //         return DataTables::of($printer)
-        //             ->addIndexColumn()
-        //             ->addColumn('user.name', function($printer) {
-        //                 return $printer->user->name;
-        //             })
-        //             ->addColumn('jenis.nama', function($inventaris) {
-        //                 return $inventaris->jenis->nama;
-        //             })
-        //             ->editColumn("created_at",function($printer){
-        //                 return date("m/d/Y",strtotime($printer->created_at));
-        //             })
-        //             ->addColumn('action', function($row){
-        //                 $btn = '<a href="'.route('printer.show',$row->id).'" class="edit btn btn-primary btn-sm">View</a>';
-        //                 return $btn;
-        //             })
-        //             ->rawColumns(['action'])
-        //             ->make(true);
-        //     }
-        //     return view('Backend.Peripheral.printer',compact('printer'));
-        // }
-
-        //  public function add_printer(Request $request){
-        //      $user = user::all();
-        //      $jenis = Jenis::all();
-        //     return view('Backend.Peripheral.printerAdd',compact('jenis','user'));
-        //  }
-
-        //  public function printerStore(Request $request){
-        //     $printer = Printer::insert([
-        //         'deskripsi' => $request->deskripsi,
-        //         'created_at' =>Carbon::now(),
-        //     ]);
-        //     $notification = array (
-        //         'message' => 'printer Insert Successfully',
-        //         'alert-type' => 'success',
-        //     );
-        //     return redirect()->route('printer-json')->with($notification);
-        // }
-
-        // public function printerEdit($id){
-        //     $printer = Printer::findOrFail($id);
-        //     return view('Backend.printer.printerEdit',compact('printer'));
-        // }
-
-        // public function printerUpdate(Request $request){
-        //     $id = $request->id;
-        //     // @dd($request);
-        //     Printer::findOrFail($id)->update([
-        //         'deskripsi' => $request->deskripsi,
-        //         'updated_at' => Carbon::now(),
-        //     ]);
-        //     $notification = array(
-        //         'message' => 'Printer Updated Successfully',
-        //         'alert-type' => 'success'
-        //     );
-        //     return redirect()->route('printer-json')->with($notification);
-        // }
-
-        //Printer
+         //Printer Controller
 
         public function json_printer(){
             return DataTables::of(Printer::limit(10))->make(true);
@@ -368,33 +299,133 @@ class InventoryController extends Controller
                 'alert-type' => 'success'
             );
 
-        return redirect()->back()->with($notification);
+            return redirect()->back()->with($notification);
         }
 
-        // public function finish($id){
+        public function details_printer($id){
+            $printer = Printer::findOrFail($id);
+            $users = user::all();
+            $jenis = Jenis::all();
+            // $history = history::where('inventory_id',$id)->get();
 
-        //     $notes = notes::findOrFail($id);
+            return view('Backend.Peripheral.details_printer',compact('printer','users','jenis'));
+        }
 
-        //     if($notes->save()){
+        //Printer Controller
 
-        //         notes::findOrFail($id)->update([
-        //             'status' => '1',
-        //         ]);
+        public function json_ups(){
+            return DataTables::of(ups::limit(10))->make(true);
+        }
 
-        //         // Update status pada database
-        //     $notes = notes::findOrFail($id);
-        //     $notes->status = 1;
-        //     $notes->save();
+        public function index_ups(Request $request){
+            $data = ups::all();
+            if ($request->ajax()) {
+                $data = ups::latest()->get();
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('user.name', function($users) {
+                        return $users->user->name;
+                    })
+                    ->addColumn('jenis.nama', function($inventaris) {
+                        return $inventaris->jenis->nama;
+                    })
+                    ->editColumn("created_at",function($data){
+                        return date("m/d/Y",strtotime($data->created_at));
+                    })
+                    ->addColumn('action', function($row){
+                        $btn = '<a href="'.route('notes.show',$row->id).'" class="edit btn btn-primary btn-sm">View</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+            return view('Backend.Peripheral.ups',compact('data'));
+        }
 
-        //          $notification = array(
-        //     'message' => 'Status Approved Successfully',
-        //     'alert-type' => 'success'
-        //       );
-        // return redirect()->route('notes-json')->with($notification);
+        public function add_ups(){
+            $ups = ups::all();
+            $users = user::all();
+            $jenis = jenis::all();
+            return view('Backend.Peripheral.upsAdd',compact('ups','jenis','users'));
+        }
 
-        //     }
+        public function upsAll(){
+          $ups = ups::all();
+          return view('Backend.Peripheral.ups',compact('ups'));
+        }
 
-        // }// End Method
+        public function store_ups(Request $request){
+
+            // Ambil nilai tanggal dari input form
+            $tanggal = $request->input('tanggal');
+
+            // Konversi tanggal menjadi objek Carbon
+            $carbonDate = Carbon::createFromFormat('d M, Y', $tanggal);
+
+            // Format ulang tanggal menjadi 'Y-m-d'
+            $formattedDate = $carbonDate->format('Y-m-d');
+
+            // Simpan data ups
+            $ups = new ups();
+            $ups->user_id = $request->user_id;
+            $ups->jenis_id = $request->jenis_id;
+            $ups->merk = $request->merk;
+            $ups->tanggal = $formattedDate;
+            $ups->save();
+
+            $notification = array (
+                'message' => 'ups Insert Successfully',
+                'alert-type' => 'success',
+            );
+            return redirect()->route('index_ups')->with($notification);
+        }
+
+        public function edit_ups($id){
+            $ups = ups::findOrFail($id);
+            $users = user::all();
+            $jenis = Jenis::all();
+            return view('Backend.Peripheral.editups',compact('ups','users','jenis'));
+        }
+
+        public function update_ups(Request $request){
+            $id = $request->id;
+            // @dd($request);
+            $formattedTanggal = date('Y-m-d', strtotime($request->tanggal));
+
+            ups::findOrFail($id)->update([
+                'user_id' => $request->user_id,
+                'jenis_id' => $request->jenis_id,
+                'merk' => $request->merk,
+                'tanggal' => $formattedTanggal,
+                'updated_at' => Carbon::now(),
+            ]);
+
+            $notification = array(
+                'message' => 'ups Updated Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('index_ups')->with($notification);
+        }
+
+        public function delete_ups($id){
+            ups::findOrFail($id)->delete();
+
+            $notification = array(
+                'message' => 'ups Deleted Successfully',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        }
+
+        public function details_ups($id){
+            $ups = ups::findOrFail($id);
+            $users = user::all();
+            $jenis = Jenis::all();
+            // $history = history::where('inventory_id',$id)->get();
+
+            return view('Backend.Peripheral.details_ups',compact('ups','users','jenis'));
+        }
 
 
 }

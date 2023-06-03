@@ -36,7 +36,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('index_json') }}">List Komputer</a></li>
                         <li><a href="{{ route('index_printer') }}">List Printer</a></li>
-                        <li><a href="">List UPS</a></li>
+                        <li><a href="{{ route('index_ups') }}">List UPS</a></li>
                     </ul>
                 </li>
 

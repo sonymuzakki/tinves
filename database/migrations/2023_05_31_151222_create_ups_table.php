@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('ups', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->integer('jenis_id');
+            $table->string('merk');
+            $table->dateTime('tanggal');
             $table->timestamps();
         });
     }

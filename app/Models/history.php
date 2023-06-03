@@ -26,4 +26,5 @@ class history extends Model
     public function lokasi(){
         return $this->belongsTo(lokasi::class,'lokasi_id','id');
     }
+
 }

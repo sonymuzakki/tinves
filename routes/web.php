@@ -70,6 +70,17 @@ Route::controller(InventoryController::class)->group(function () {
     Route::get('/edit-printer-{id}', 'edit_printer')->name('edit-printer')->middleware('role:admin');
     Route::post('/update-printer-{id}', 'update_printer')->name('update-printer')->middleware('role:admin');
     Route::get('/delete-printer-{id}', 'delete_printer')->name('delete-printer')->middleware('role:admin');
+    Route::get('/details-printer-{id}', 'details_printer')->name('details-printer')->middleware('role:admin');
+
+    // Printer
+    Route::get('/json', 'json_ups')->name('json_ups')->middleware('role:admin');
+    Route::get('/ups', 'index_ups')->name('index_ups')->middleware('role:admin');
+    Route::get('/add-ups', 'add_ups')->name('add-ups')->middleware('role:admin');
+    Route::post('/store-ups', 'store_ups')->name('store-ups')->middleware('role:admin');
+    Route::get('/edit-ups-{id}', 'edit_ups')->name('edit-ups')->middleware('role:admin');
+    Route::post('/update-ups-{id}', 'update_ups')->name('update-ups')->middleware('role:admin');
+    Route::get('/delete-ups-{id}', 'delete_ups')->name('delete-ups')->middleware('role:admin');
+    Route::get('/details-ups-{id}', 'details_ups')->name('details-ups')->middleware('role:admin');
 
 });
 
