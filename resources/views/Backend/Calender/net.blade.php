@@ -161,7 +161,6 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-
                                 <div id=calendar>
                                     <select id="colorOption">
                                         <option value="danger">Danger</option>

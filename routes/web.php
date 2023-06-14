@@ -148,7 +148,9 @@ Route::controller(DashboardController::class)->group(function () {
 Route::controller(CalendarController::class)->group(function () {
     Route::get('/fullcalender', 'index')->name('calendar')->middleware('role:admin');
     Route::post('/fullcalenderAjax', 'ajax')->name('cal.store')->middleware('role:admin');
+
 });
+
 // Route::middleware(['auth', 'user-access:user'])->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'profile'])->name('admin.profile');
 //     Route::get('/editProfile', [ProfileController::class, 'editProfile'])->name('edit.profile');

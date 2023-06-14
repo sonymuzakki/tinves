@@ -20,6 +20,7 @@ use GrahamCampbell\ResultType\Success;
 
 class InventoryController extends Controller
 {
+
         public function InventarisAll(){
             $inventory = Inventory::all();
             return view('Backend.InventoryAll',compact('inventory'));
@@ -33,9 +34,6 @@ class InventoryController extends Controller
                     ->addIndexColumn()
                     ->addColumn('user.name', function($inventaris) {
                         return $inventaris->user->name;
-                    })
-                    ->addColumn('jenis.nama', function($inventaris) {
-                        return $inventaris->jenis->nama;
                     })
                     ->addColumn('divisi.nama', function($inventaris) {
                         return $inventaris->user->Divisi->nama;
@@ -57,33 +55,46 @@ class InventoryController extends Controller
             // $divisi = Divisi::all();
             $user = user::with('divisi','lokasi')->get();
             // $lokasi = Lokasi::all();
-            $jenis = Jenis::all();
-            return view('Backend.inventoryAdd',compact('jenis','user'));
+            // $jenis = Jenis::all();
+            return view('Backend.inventoryAdd',compact('user'));
         }
 
         public function InventarisStore(Request $request ){
-            $inventory = inventory::insert([
-                'user_id' => $request->user_id,
-                'jenis_id' => $request->jenis_id,
-                'hostname' => $request->hostname,
-                'merk' => $request->merk,
-                'Processor' => $request->Processor,
-                'ram' => $request->ram,
-                'grafik' => $request->grafik,
-                'ssd' => $request->ssd,
-                'os' => $request->os,
-                'Office' => $request->Office,
-                'akunOffice' => $request->akunOffice,
-                'hardisk' => $request->hardisk,
-                'legalos' => $request->legalos,
-                'internet' => $request->internet,
-                'ipaddress' => $request->ipaddress,
-                'amp' => $request->amp,
-                'umbrella' => $request->umbrella,
-                'anydeskid' => $request->anydeskid,
-                'created_by' => Auth::user()->id,
-                'created_at' => Carbon::now()
-            ]);
+
+            // Ambil nilai tanggal dari input form
+            $tanggal = $request->input('tanggal');
+
+            // Konversi tanggal menjadi objek Carbon
+            $carbonDate = Carbon::createFromFormat('d M, Y', $tanggal);
+
+            // Format ulang tanggal menjadi 'Y-m-d'
+            $formattedDate = $carbonDate->format('Y-m-d');
+            // ]);
+
+            $inventory = new inventory();
+            $inventory->user_id= $request->user_id;
+            $inventory->jenis= $request->jenis;
+            $inventory->hostname= $request->hostname;
+            $inventory->merk= $request->merk;
+            $inventory->Processor= $request->Processor;
+            $inventory->ram= $request->ram;
+            $inventory->grafik= $request->grafik;
+            $inventory->ssd= $request->ssd;
+            $inventory->os= $request->os;
+            $inventory->Office= $request->Office;
+            $inventory->akunOffice= $request->akunOffice;
+            $inventory->hardisk= $request->hardisk;
+            $inventory->legalos= $request->legalos;
+            $inventory->internet= $request->internet;
+            $inventory->ipaddress= $request->ipaddress;
+            $inventory->amp= $request->amp;
+            $inventory->umbrella= $request->umbrella;
+            $inventory->anydeskid= $request->anydeskid;
+            $inventory->tanggal= $request->$formattedDate;
+            $inventory->created_by= Auth::user()->id;
+            $inventory->created_at= Carbon::now();
+            $inventory->save();
+
             $notification = array (
                 'message' => 'Inventory Insert Successfully',
                 'alert-type' => 'success',
@@ -95,8 +106,7 @@ class InventoryController extends Controller
         public function InventarisEdit($id){
             $inventaris = Inventory::findOrFail($id);
             $user = user::all();
-            $jenis = Jenis::all();
-            return view('Backend.inventoryEdit',compact('inventaris','jenis','user'));
+            return view('Backend.inventoryEdit',compact('inventaris','user'));
         }
 
         public function index2(){
@@ -113,7 +123,7 @@ class InventoryController extends Controller
             //validasi inputan dari form
             $this->validate($request, [
                 'user_id' => 'required',
-                'jenis_id' => 'required',
+                'jenis' => 'required',
                 'hostname' => 'required',
                 'os' => 'required',
                 'merk' => 'required',
@@ -137,7 +147,7 @@ class InventoryController extends Controller
 
             //mengupdate data inventaris dengan data baru dari inputan form
             $inventaris->user_id = $request->user_id;
-            $inventaris->jenis_id = $request->jenis_id;
+            $inventaris->jenis= $request->jenis;
             $inventaris->hostname = $request->hostname;
             $inventaris->os = $request->os;
             $inventaris->merk = $request->merk;
@@ -171,7 +181,7 @@ class InventoryController extends Controller
 
             //kembalikan user ke halaman inventaris dengan notifikasi
             return redirect()->route('index_json');
-            }
+        }
 
 
         public function InventarisDelete($id){
@@ -182,18 +192,17 @@ class InventoryController extends Controller
                 'alert-type' => 'success'
             );
 
-        return redirect()->back()->with($notification);
+            return redirect()->back()->with($notification);
         }
 
 
         public function InventarisDetails($id){
-        $inventaris = Inventory::findOrFail($id);
-        $user = user::all();
-        $jenis = Jenis::all();
-        $history = history::where('inventory_id',$id)->get();
+            $inventaris = Inventory::findOrFail($id);
+            $user = user::all();
+            $history = history::where('inventory_id',$id)->get();
 
-        return view('Backend.inventoryDetails',compact('inventaris','user','jenis','history'));
-         }
+            return view('Backend.inventoryDetails',compact('inventaris','user','history'));
+        }
 
          //Printer Controller
 
@@ -311,7 +320,7 @@ class InventoryController extends Controller
             return view('Backend.Peripheral.details_printer',compact('printer','users','jenis'));
         }
 
-        //Printer Controller
+        //Ups Controller
 
         public function json_ups(){
             return DataTables::of(ups::limit(10))->make(true);
@@ -419,13 +428,21 @@ class InventoryController extends Controller
         }
 
         public function details_ups($id){
-            $ups = ups::findOrFail($id);
-            $users = user::all();
+            $ups = Ups::findOrFail($id);
+            $users = User::all();
             $jenis = Jenis::all();
-            // $history = history::where('inventory_id',$id)->get();
 
-            return view('Backend.Peripheral.details_ups',compact('ups','users','jenis'));
+            // Mendapatkan jenis yang diinputkan pada UPS
+            $jenisId = $ups->jenis_id;
+
+            // Mendapatkan history berdasarkan jenis
+            $history = History::where('jenis_id', $id)
+                ->whereHas('jenis', function ($query) use ($jenisId) {
+                    $query->where('jenis_id', $jenisId);
+                })
+                ->get();
+
+            return view('Backend.Peripheral.details_ups', compact('ups', 'users', 'jenis', 'history'));
         }
-
 
 }

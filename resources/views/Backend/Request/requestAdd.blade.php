@@ -31,10 +31,16 @@
                         <div class="col-lg-8">
                             <div class="mb-3">
                                 <label class="form-label">User - Jenis </label>
-                                <select class="form-control select2" name="inventory_id" >
+                                <select class="form-control select2" name="inventory_id">
                                     <option>Select Option</option>
-                                    @foreach ($inventory as $inv)
-                                            <option value="{{ $inv->id }}">{{ $inv->user->name }} - {{ $inv->jenis->nama }}</option>
+                                    @foreach ($mergedData as $data)
+                                        @if ($data instanceof App\Models\Inventory)
+                                            <option value="{{ $data->id }}">{{ $data->user->name }} - {{ $data->jenis->nama }}</option>
+                                        @elseif ($data instanceof App\Models\Printer)
+                                            <option value="{{ $data->id }}">{{ $data->user->name }} - Printer : {{ $data->merk }}</option>
+                                        @elseif ($data instanceof App\Models\Ups)
+                                            <option value="{{ $data->id }}">{{ $data->user->name }} - UPS : {{ $data->merk }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>

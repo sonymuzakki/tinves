@@ -45,17 +45,55 @@
                         <div class="col-6 mb-2 ">
                             <label class="col-sm-6 col-form-label">Jenis</label>
                                 <div class="form-group col-11 ">
-                                    <select name="jenis_id" class="form-select" aria-label="Default select example">
-                                        <option selected="">Open this select menu</option>
-                                        @foreach($jenis as $j)
-                                            <option value="{{ $j->id }}" {{ $j->id == $inventaris->jenis_id ? 'selected' : '' }} >{{ $j->nama }}</option>
-                                        @endforeach
+                                    <select name="jenis_id" id="jenis" class="form-select" aria-label="Default select example">
+                                        <option selected="{{ $inventaris->id }}">{{ $inventaris->jenis }}</option>
+                                        <option value="PC">PC</option>
+                                        <option value="Laptop">Laptop</option>
+                                        <option value="printer">Printer</option>
+                                        <option value="printer">UPS</option>
                                     </select>
                                 </div>
                         </div>
 
                     </div>
 
+                    <!-- Printer Form -->
+                    <div id="printerFields" style="display: none;">
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <label for="text" class="col-sm-2 col-form-label">Merk</label>
+                                <div class="form-group col-11">
+                                    <input name="merk" class="form-control" type="text" value="{{ $inventaris->merk }}" placeholder="" id="text">
+                                </div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <label for="text" class="col-sm-6 col-form-label">Tanggal Pembelian</label>
+                                <div class="form-group col-11">
+                                    <input name="tanggal_pembelian" class="form-control" type="text" value="{{ $inventaris->tanggal_pembelian }}" placeholder="" id="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ups Form -->
+                    <div id="printerFields" style="display: none;">
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <label for="text" class="col-sm-2 col-form-label">Merk</label>
+                                <div class="form-group col-11">
+                                    <input name="merk" class="form-control" type="text" value="{{ $inventaris->merk }}" placeholder="" id="text">
+                                </div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <label for="text" class="col-sm-6 col-form-label">Tanggal Pembelian</label>
+                                <div class="form-group col-11">
+                                    <input name="tanggal_pembelian" class="form-control" type="text" value="{{ $inventaris->tanggal_pembelian }}" placeholder="" id="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+{{--
                     <div class="row">
 
                             <!-- end row -->
@@ -109,8 +147,6 @@
 
                     </div>
                     <!-- end row -->
-
-
 
                     <div class="row">
                         <div class="col-6 mb-2">
@@ -234,7 +270,7 @@
                         <div class="col-6 mb-2">
 
                         </div>
-                    </div>
+                    </div> --}}
 
 
                     <div class="row mb-3">
@@ -288,6 +324,20 @@
         });
     });
 
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var selectedValue = document.getElementById('jenis').value;
+        var printerFields = document.getElementById('printerFields');
+        var printerFields = document.getElementById('printerFields');
+
+        if (selectedValue === 'printer') {
+            printerFields.style.display = 'block';
+        } else {
+            printerFields.style.display = 'none';
+        }
+    });
 </script>
 
 @endsection

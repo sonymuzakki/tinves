@@ -5,13 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lokasi extends Model
+class Calendar extends Model
 {
-    protected $table = 'lokasi';
+    use HasFactory;
+    protected $table = 'calendar';
     protected $guarded = [];
-
-    public function User(){
-        return $this->hasMany(User::class);
-    }
-
 }

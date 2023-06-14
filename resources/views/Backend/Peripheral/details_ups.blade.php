@@ -83,6 +83,49 @@
     </div> <!-- end col -->
 </div>
 
+<div class="row mt-3">
+    <div class="col-12">
+        <class class="card container-fluid mb-3">
+            <h4 class="mt-3">History Request</h4><br></br>
+                <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse:collapse;border-spacing:0; width:100%;">
+                <thead>
+                  <tr>
+                    <th width="5%">No</th>
+                    <th width="20px">Laporan</th>
+                    <th width="20px">Kendala</th>
+                    <th width="20px">Pengerjaan</th>
+                    <th width="20px">Tanggal</th>
+                    <th width="10px">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @foreach ($history as $key => $item)
+                    <tr>
+                        <td>{{ $key+1}}</td>
+                        <td>{{ $item->laporan }}</td>
+                        <td>{{ $item->kendala }}</td>
+                        <td>{{ $item->pengerjaan }}</td>
+                        <td>{{ $item->created_at->format('d-M-Y h:i A')}}</td>
+                        <td>
+                            @if ($item->status == "0")
+                                <button type="button" class="btn btn-warning waves-effect waves-light">
+                                    <i class="ri-error-warning-line align-middle me-2"></i> Pending
+                                </button>
+                            @elseif ($item->status == "1")
+                                <button type="button" class="btn btn-success waves-effect waves-light">
+                                    <i class="ri-check-line align-middle me-2"></i> Success
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+              </table>
+        </div>
+    </div> <!-- end col -->
+</div>
+
+
 @section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {

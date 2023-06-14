@@ -199,8 +199,8 @@
         @yield('js')
 
            {{--  Required datatable js  --}}
-           <script src="{{ asset('assets/libs/dattables.net/js/jquery.dataTables.min.js') }}"></script>
-           <script src="{{ asset('assets/libs/dattables.net-bs4/js/datatables.bootstrap.min.js') }}"></script>
+           <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+           <script src="{{ asset('assets/libs/datatables.net-bs4/js/datatables.bootstrap.min.js') }}"></script>
 
            {{-- Dattable init js   --}}
            <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>

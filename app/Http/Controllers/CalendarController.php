@@ -2,39 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calendar;
 use App\Models\network;
 use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
-    // public function index(){
-    //     $network = network::all();
-    //     foreach($network as $network){
-    //         $events[] = [
-    //             'title' => $network->title,
-    //             'start' => $network->start_date,
-    //             'end' => $network->end_date,
-    //         ];
-    //     }
 
-    //     return view('Backend.Calender.net', ['events' => $events]);
-    //     // return view('Backend.Calender.net');
-    // }
 
-    // public function store(Request $request){
-    //     $request->validate([
-    //         'title' => 'required|string'
-    //     ]);
-    //     $network = network::create([
-    //         'title' => $request->title,
-    //         'start_date' => $request->start_date,
-    //         'end_date' => $request->end_date,
 
-    //     ]);
-    //     return response()->json($network);
-    // }
-    public function index(Request $request)
-    {
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+
+    public function index(Request $request){
         if($request->ajax()) {
 
             $data = network::whereDate('start', '>=', $request->start)
@@ -47,13 +30,7 @@ class CalendarController extends Controller
         return view('Backend.Calender.net');
     }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function ajax(Request $request)
-    {
+    public function ajax(Request $request){
         switch ($request->type) {
            case 'add':
                 $event = network::create([
@@ -89,5 +66,65 @@ class CalendarController extends Controller
             # code...
             break;
         }
+    }
+
+    public function index_new(){
+
+        $events = array();
+        $calendar = Calendar::all();
+        foreach($calendar as $cal){
+            $events[]= [
+                'id'    => $cal->id,
+                'title' => $cal->title,
+                'area' => $cal->area,
+                'item' => $cal->item,
+                'start' => $cal->start_date,
+                'end'   => $cal->end_date,
+            ];
+        }
+        return view ('Backend.Calendar.calendar',['events'=> $events]);
+    }
+
+    public function store(Request $request){
+        $request->validate([
+            'title' => 'required|string',
+            'area' => 'required|string',
+            'item' => 'required|string'
+        ]);
+
+        $calendar = Calendar::create([
+            'title' => $request->title,
+            'area' => $request->area,
+            'item' => $request->item,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+        return response()->json($calendar);
+    }
+
+    public function update(Request $request,$id){
+
+        $calendar  = Calendar::find($id);
+        if(! $calendar) {
+            return response()->json([
+                'error' => 'Unable to locate the event'
+            ], 404 );
+        }
+        $calendar->update([
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+        return $calendar;
+    }
+
+    public function destroy($id){
+        $calendar = Calendar::find($id);
+            if(! $calendar) {
+                return response()->json([
+                    'error' => 'Unable to locate the event'
+                ],'404');
+            }
+            $calendar->delete();
+            return $id;
     }
 }

@@ -201,26 +201,6 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Events</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                    <div class="modal-body">
-                        <input type="text" class="form-control" id="title">
-                        <span id="titleError" class="text-danger"></span>
-                    </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" id="saveBtn" class="btn btn-primary">Save changes</button>
-                        </div>
-            </div>
-        </div>
-    </div>
-
     <!-- FullCalendar -->
     <div class="row">
         <div class="col">
@@ -286,17 +266,24 @@
                             selectable: true,
                             selectHelper: true,
                             select: function (start, end, allDay) {
-                                {{--  var title = prompt('Event Title: ');  --}}
-                                $('#bookingModal').modal('toggle');
-
-
+                                var title = prompt('Event Title: ');
 
                                 if (title) {
                                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
                                     var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
 
+                                    var color = $("#color").val();
+                                    var backgroundColor = '';
 
-
+                                    if (color === 'success') {
+                                        backgroundColor = 'green';
+                                    } else if (color === 'alert') {
+                                        backgroundColor = 'orange';
+                                    } else if (color === 'danger') {
+                                        backgroundColor = 'red';
+                                    } else {
+                                        backgroundColor = 'blue';
+                                    }
 
                                     $.ajax({
                                         url: SITEURL + "/fullcalenderAjax",

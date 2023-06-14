@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use App\Models\user;
 use App\Models\history;
 use App\Models\Inventory;
+use App\Models\ups;
+use App\Models\Printer;
 use App\Models\Jenis;
 use App\Models\proses;
 
@@ -26,13 +28,16 @@ class HistoryController extends Controller
         return view('Backend.Request.historyAll',compact('history'));
     }
 
-    public function RequestAdd(){
+    public function RequestAdd(Request $request){
         $history = history::all();
         $inventory = Inventory::with('user','jenis')->get();
-        // $inventory = Inventory::pluck('user_id','id');
-        // $jenis = jenis::pluck('nama','id');
+        $printers = Printer::all();
+        $ups = ups::all();
 
-        return view('Backend.Request.requestAdd',compact('history','inventory'));
+        // Menggabungkan data dari ketiga tabel
+        $mergedData = $inventory->concat($printers)->concat($ups);
+
+        return view('Backend.Calender.new',compact('history','mergedData'));
     }
 
     public function RequestStore(Request $request){

@@ -15,14 +15,8 @@ class Divisi extends Model
     protected $table = 'divisi';
     protected $guarded = [];
 
-    public static function boot()
-{
-    parent::boot();
+    public function User(){
+        return $this->hasMany(User::class);
+    }
 
-    static::creating(function ($model) {
-        $lastDivisi = static::orderBy('id', 'desc')->first();
-        $nextId = ($lastDivisi) ? ((int)substr($lastDivisi->no, 2) + 1) : 1;
-        $model->no = 'B-' . str_pad($nextId, 2, '0', STR_PAD_LEFT);
-    });
-}
 }

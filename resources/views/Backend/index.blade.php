@@ -57,7 +57,7 @@
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'hostname', name: 'hostname', visible:false, searchable:true},
                 {data: 'user.name', name: 'user.name'},
-                {data: 'jenis.nama', name: 'jenis.nama'},
+                {data: 'jenis', name: 'jenis'},
                 {data: 'divisi.nama', name: 'divisi.nama'},
                 {data: 'lokasi.nama', name: 'lokasi.nama'},
                 {data: 'action', name: 'action'},

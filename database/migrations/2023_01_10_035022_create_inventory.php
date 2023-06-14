@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             // $table->string('jenis');
-            $table->integer('jenis_id');
+            $table->string('jenis');
             $table->string('hostname')->default('-')->nullable();
             $table->string('merk')->default('-')->nullable();
             $table->string('Processor')->default('-')->nullable();
@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('amp')->default("-")->nullable();
             $table->string('umbrella')->default("-")->nullable();            // $table->string('umbrella')->nullable();
             $table->string('anydeskid')->default("-")->nullable();            // $table->string('umbrella')->nullable();
+            $table->dateTime('tanggal')->nullable();            // $table->string('umbrella')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

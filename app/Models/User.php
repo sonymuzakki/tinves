@@ -10,6 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -50,16 +51,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // protected function type()
-    // {
-    //     return new Attribute(
-    //         get: fn ($value) =>  ["user", "admin"][$value],
-    //     );
-    // }
 
-    // public function inventory(){
-    //     return $this->belongsTo(inventory::class,'inventory_id','id');
-    // }
+
     public function Divisi(){
         return $this->belongsTo(Divisi::class,'divisi_id','id');
     }
